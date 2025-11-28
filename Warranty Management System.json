@@ -1,0 +1,598 @@
+{
+  "name": "Warranty Management System",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "warranty-status-checker",
+        "responseMode": "=responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -432,
+        640
+      ],
+      "id": "e1354580-9bf7-45ea-923e-9f5cf1f43a0b",
+      "name": "Warranty Status Check",
+      "webhookId": "2a38162a-9711-4712-aeff-0abb13722d01"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "warranty-registration-click",
+        "responseMode": "=responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -416,
+        128
+      ],
+      "id": "58242bd6-9b1f-4254-911a-36bed641bd50",
+      "name": "Warranty Registration Button Click",
+      "webhookId": "2a38162a-9711-4712-aeff-0abb13722d01"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Already Registered - Serial Number</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);\n            min-height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 20px;\n        }\n\n        .container {\n            background: white;\n            border-radius: 20px;\n            padding: 50px;\n            max-width: 700px;\n            width: 100%;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);\n            animation: slideUp 0.6s ease-out;\n        }\n\n        @keyframes slideUp {\n            from {\n                opacity: 0;\n                transform: translateY(30px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        .status-header {\n            text-align: center;\n            margin-bottom: 30px;\n        }\n\n        .status-icon {\n            font-size: 5em;\n            margin-bottom: 15px;\n        }\n\n        .status-badge {\n            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);\n            color: white;\n            padding: 12px 30px;\n            border-radius: 25px;\n            font-size: 1.3em;\n            font-weight: 700;\n            display: inline-block;\n            margin-bottom: 15px;\n        }\n\n        h1 {\n            color: #1e40af;\n            font-size: 2.5em;\n            margin-bottom: 10px;\n        }\n\n        .subtitle {\n            color: #2563eb;\n            font-size: 1.1em;\n        }\n\n        .battery-display {\n            background: #dbeafe;\n            border: 3px solid #3b82f6;\n            border-radius: 20px;\n            padding: 30px;\n            margin: 30px 0;\n            display: flex;\n            align-items: center;\n            gap: 25px;\n        }\n\n        .battery-icon-large {\n            font-size: 4em;\n        }\n\n        .battery-details {\n            flex: 1;\n        }\n\n        .serial-number {\n            font-size: 1.8em;\n            color: #1e40af;\n            font-weight: 700;\n            margin-bottom: 8px;\n        }\n\n        .battery-label {\n            color: #2563eb;\n            font-size: 0.95em;\n            font-weight: 600;\n        }\n\n        .info-alert {\n            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);\n            border: 2px solid #3b82f6;\n            border-radius: 15px;\n            padding: 25px;\n            margin: 25px 0;\n        }\n\n        .info-alert h3 {\n            color: #1e40af;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .info-alert p {\n            color: #1e3a8a;\n            line-height: 1.8;\n            margin-bottom: 15px;\n            font-size: 1.05em;\n        }\n\n        .info-alert p:last-child {\n            margin-bottom: 0;\n        }\n\n        .action-box {\n            background: #fef3c7;\n            border-left: 4px solid #f59e0b;\n            padding: 25px;\n            border-radius: 15px;\n            margin: 25px 0;\n        }\n\n        .action-box h3 {\n            color: #92400e;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .action-box p {\n            color: #78350f;\n            line-height: 1.8;\n            font-size: 1.05em;\n        }\n\n        .contact-box {\n            background: #f3f4f6;\n            border-left: 4px solid #6b7280;\n            padding: 25px;\n            border-radius: 15px;\n            margin: 25px 0;\n        }\n\n        .contact-box h3 {\n            color: #374151;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .contact-item {\n            display: flex;\n            align-items: center;\n            gap: 15px;\n            margin: 12px 0;\n            color: #4b5563;\n            font-size: 1.1em;\n        }\n\n        .contact-item strong {\n            color: #374151;\n        }\n\n        .btn-group {\n            display: flex;\n            gap: 15px;\n            margin-top: 30px;\n            flex-wrap: wrap;\n        }\n\n        .btn {\n            flex: 1;\n            padding: 15px 30px;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.3s ease;\n            min-width: 200px;\n        }\n\n        .btn-primary {\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            color: white;\n        }\n\n        .btn-secondary {\n            background: #f3f4f6;\n            color: #374151;\n            border: 2px solid #d1d5db;\n        }\n\n        .btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);\n        }\n\n        @media (max-width: 768px) {\n            .container {\n                padding: 30px;\n            }\n\n            .battery-display {\n                flex-direction: column;\n                text-align: center;\n            }\n\n            .btn-group {\n                flex-direction: column;\n            }\n\n            .btn {\n                width: 100%;\n            }\n\n            h1 {\n                font-size: 2em;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"status-header\">\n            <div class=\"status-icon\">ℹ️</div>\n            <div class=\"status-badge\">✓ ALREADY REGISTERED</div>\n            <h1>Serial Number Registered</h1>\n            <p class=\"subtitle\">This battery is already in our system</p>\n        </div>\n\n        <div class=\"battery-display\">\n            <div class=\"battery-icon-large\">🔋</div>\n            <div class=\"battery-details\">\n                <div class=\"battery-label\">Serial Number</div>\n                <div class=\"serial-number\">{{ $json.SerialNumber }}</div>\n            </div>\n        </div>\n\n        <div class=\"info-alert\">\n            <h3>📋 Registration Status</h3>\n            <p>This serial number is <strong>already registered</strong> in our warranty system.</p>\n            <p>You can proceed to check the current warranty status for this battery by clicking the button below.</p>\n        </div>\n\n        <div class=\"action-box\">\n            <h3>🔍 Next Steps</h3>\n            <p>Click \"Check Warranty Status\" to view detailed information about your battery's warranty coverage, including expiration date and remaining coverage period.</p>\n        </div>\n\n        <div class=\"contact-box\">\n            <h3>📞 Need Help?</h3>\n            <div class=\"contact-item\">\n                <span>📱</span>\n                <span><strong>Phone:</strong> +91-1800-123-4567</span>\n            </div>\n            <div class=\"contact-item\">\n                <span>📧</span>\n                <span><strong>Email:</strong> support@carbattery.com</span>\n            </div>\n            <div class=\"contact-item\">\n                <span>🕐</span>\n                <span><strong>Hours:</strong> Mon-Sat, 9 AM - 6 PM</span>\n            </div>\n        </div>\n\n        <div class=\"btn-group\">\n            <button class=\"btn btn-secondary\" onclick=\"window.close()\" style=\"margin: 0 auto;\">\n                Close Window\n            </button>\n        </div>\n    </div>\n</body>\n</html>\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        256,
+        32
+      ],
+      "id": "c8dd825e-99ef-451a-8609-ce4635d8d354",
+      "name": "Registration Exists Page"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a507ddd8-4430-4bce-8459-659fb5737ab4",
+              "leftValue": "={{ $json.SerialNumber }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        32,
+        128
+      ],
+      "id": "b45b2079-496d-4ccc-b0b2-224be7be71d5",
+      "name": "Registration Exists?"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Warranty Registration Successful</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #10b981 0%, #059669 100%);\n            min-height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 20px;\n        }\n\n        .container {\n            background: white;\n            border-radius: 20px;\n            padding: 50px;\n            max-width: 600px;\n            width: 100%;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);\n            text-align: center;\n            animation: slideUp 0.6s ease-out;\n        }\n\n        @keyframes slideUp {\n            from {\n                opacity: 0;\n                transform: translateY(30px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        .success-icon {\n            font-size: 5em;\n            margin-bottom: 20px;\n            animation: bounce 1s ease;\n        }\n\n        @keyframes bounce {\n            0%, 100% { transform: translateY(0); }\n            50% { transform: translateY(-20px); }\n        }\n\n        h1 {\n            color: #065f46;\n            font-size: 2.5em;\n            margin-bottom: 15px;\n        }\n\n        .subtitle {\n            color: #059669;\n            font-size: 1.2em;\n            margin-bottom: 30px;\n        }\n\n        .details-box {\n            background: #f0fdf4;\n            border: 2px solid #10b981;\n            border-radius: 15px;\n            padding: 30px;\n            margin: 30px 0;\n            text-align: left;\n        }\n\n        .detail-row {\n            display: flex;\n            justify-content: space-between;\n            padding: 12px 0;\n            border-bottom: 1px solid #d1fae5;\n        }\n\n        .detail-row:last-child {\n            border-bottom: none;\n        }\n\n        .detail-label {\n            color: #065f46;\n            font-weight: 600;\n        }\n\n        .detail-value {\n            color: #064e3b;\n            font-weight: 500;\n        }\n\n        .serial-highlight {\n            background: #10b981;\n            color: white;\n            padding: 15px 25px;\n            border-radius: 10px;\n            font-size: 1.5em;\n            font-weight: 700;\n            display: inline-flex;\n            align-items: center;\n            gap: 10px;\n            margin: 20px 0;\n        }\n\n        .warranty-info {\n            background: #dbeafe;\n            border-left: 4px solid #3b82f6;\n            padding: 20px;\n            border-radius: 10px;\n            margin: 20px 0;\n            text-align: left;\n        }\n\n        .warranty-info h3 {\n            color: #1e40af;\n            margin-bottom: 10px;\n        }\n\n        .warranty-info p {\n            color: #1e3a8a;\n            line-height: 1.6;\n        }\n\n        .btn {\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            color: white;\n            padding: 15px 40px;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            margin-top: 20px;\n            transition: all 0.3s ease;\n        }\n\n        .btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);\n        }\n\n        @media (max-width: 768px) {\n            .container {\n                padding: 30px;\n            }\n\n            h1 {\n                font-size: 2em;\n            }\n\n            .detail-row {\n                flex-direction: column;\n                gap: 5px;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"success-icon\">✅</div>\n        <h1>Registration Successful!</h1>\n        <p class=\"subtitle\">Your warranty has been successfully registered</p>\n\n        <div class=\"serial-highlight\">\n            <span>🔋</span>\n            <span>{{ $json.SerialNumber }}</span>\n        </div>\n\n        <div class=\"details-box\">\n            <div class=\"detail-row\">\n                <span class=\"detail-label\">Customer Name:</span>\n                <span class=\"detail-value\">{{ $json.CustomerName }}</span>\n            </div>\n            <div class=\"detail-row\">\n                <span class=\"detail-label\">Phone Number:</span>\n                <span class=\"detail-value\">{{ $json.Phone }}</span>\n            </div>\n            <div class=\"detail-row\">\n                <span class=\"detail-label\">Purchase Date:</span>\n                <span class=\"detail-value\">{{ $json.PurchaseDate.format('dd LLL yyyy') }}</span>\n            </div>\n            <div class=\"detail-row\">\n                <span class=\"detail-label\">Registration Date:</span>\n                <span class=\"detail-value\">{{ $now.format('dd LLL yyyy') }}</span>\n            </div>\n        </div>\n\n        <div class=\"warranty-info\">\n            <h3>📋 Important Information</h3>\n            <p><strong>Warranty Period:</strong> 24 months from date of purchase</p>\n            <p><strong>Coverage:</strong> Manufacturing defects and premature failure</p>\n            <p><strong>Note:</strong> Please keep your purchase receipt as proof of purchase. Your warranty is now active and can be checked anytime using your serial number.</p>\n        </div>\n\n        <button class=\"btn\" onclick=\"window.close()\">Close Window</button>\n    </div>\n</body>\n</html>\n\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        480,
+        224
+      ],
+      "id": "cbf9c9dc-0305-4d63-9d74-09c3613c79e1",
+      "name": "Registration Success"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "sFEwYVuIAXlOgkwR",
+          "mode": "list",
+          "cachedResultName": "Warranty Registration V1",
+          "cachedResultUrl": "/projects/UherE23ZLoWlABdH/datatables/sFEwYVuIAXlOgkwR"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "SerialNumber",
+              "keyValue": "={{ $json.body.serialNumber }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        640
+      ],
+      "id": "2456af37-b6f2-4a1a-ac42-4c145ed5d7eb",
+      "name": "Find Serial Number",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Warranty Status - Expired</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);\n            min-height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 20px;\n        }\n\n        .container {\n            background: white;\n            border-radius: 20px;\n            padding: 50px;\n            max-width: 700px;\n            width: 100%;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);\n            animation: slideUp 0.6s ease-out;\n        }\n\n        @keyframes slideUp {\n            from {\n                opacity: 0;\n                transform: translateY(30px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        .status-header {\n            text-align: center;\n            margin-bottom: 30px;\n        }\n\n        .status-icon {\n            font-size: 5em;\n            margin-bottom: 15px;\n        }\n\n        .status-badge {\n            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);\n            color: white;\n            padding: 12px 30px;\n            border-radius: 25px;\n            font-size: 1.3em;\n            font-weight: 700;\n            display: inline-block;\n            margin-bottom: 15px;\n        }\n\n        h1 {\n            color: #991b1b;\n            font-size: 2.5em;\n            margin-bottom: 10px;\n        }\n\n        .subtitle {\n            color: #dc2626;\n            font-size: 1.1em;\n        }\n\n        .battery-display {\n            background: #fee2e2;\n            border: 3px solid #ef4444;\n            border-radius: 20px;\n            padding: 30px;\n            margin: 30px 0;\n            display: flex;\n            align-items: center;\n            gap: 25px;\n        }\n\n        .battery-icon-large {\n            font-size: 4em;\n            opacity: 0.6;\n            filter: grayscale(100%);\n        }\n\n        .battery-details {\n            flex: 1;\n        }\n\n        .serial-number {\n            font-size: 1.8em;\n            color: #991b1b;\n            font-weight: 700;\n            margin-bottom: 8px;\n        }\n\n        .battery-label {\n            color: #dc2626;\n            font-size: 0.95em;\n            font-weight: 600;\n        }\n\n        .info-grid {\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 20px;\n            margin: 30px 0;\n        }\n\n        .info-card {\n            background: #f9fafb;\n            border: 2px solid #e5e7eb;\n            border-radius: 15px;\n            padding: 20px;\n        }\n\n        .info-card-label {\n            color: #6b7280;\n            font-size: 0.85em;\n            font-weight: 600;\n            text-transform: uppercase;\n            margin-bottom: 8px;\n        }\n\n        .info-card-value {\n            color: #1f2937;\n            font-size: 1.3em;\n            font-weight: 600;\n        }\n\n        .warranty-timeline {\n            background: #fee2e2;\n            border-left: 4px solid #ef4444;\n            padding: 25px;\n            border-radius: 15px;\n            margin: 25px 0;\n        }\n\n        .timeline-item {\n            display: flex;\n            justify-content: space-between;\n            padding: 12px 0;\n            border-bottom: 1px solid #fecaca;\n        }\n\n        .timeline-item:last-child {\n            border-bottom: none;\n        }\n\n        .timeline-label {\n            color: #991b1b;\n            font-weight: 600;\n        }\n\n        .timeline-value {\n            color: #7f1d1d;\n            font-weight: 500;\n        }\n\n        .expired-alert {\n            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);\n            border: 2px solid #f59e0b;\n            border-radius: 15px;\n            padding: 25px;\n            margin: 25px 0;\n        }\n\n        .expired-alert h3 {\n            color: #92400e;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .expired-alert p {\n            color: #78350f;\n            line-height: 1.8;\n            margin-bottom: 15px;\n        }\n\n        .contact-box {\n            background: #dbeafe;\n            border-left: 4px solid #3b82f6;\n            padding: 25px;\n            border-radius: 15px;\n            margin: 25px 0;\n        }\n\n        .contact-box h3 {\n            color: #1e40af;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .contact-item {\n            display: flex;\n            align-items: center;\n            gap: 15px;\n            margin: 12px 0;\n            color: #1e3a8a;\n            font-size: 1.1em;\n        }\n\n        .contact-item strong {\n            color: #1e40af;\n        }\n\n        .btn-group {\n            display: flex;\n            gap: 15px;\n            margin-top: 30px;\n            flex-wrap: wrap;\n        }\n\n        .btn {\n            flex: 1;\n            padding: 15px 30px;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.3s ease;\n            min-width: 200px;\n        }\n\n        .btn-primary {\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            color: white;\n        }\n\n        .btn-secondary {\n            background: #f3f4f6;\n            color: #374151;\n            border: 2px solid #d1d5db;\n        }\n\n        .btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);\n        }\n\n        @media (max-width: 768px) {\n            .container {\n                padding: 30px;\n            }\n\n            .battery-display {\n                flex-direction: column;\n                text-align: center;\n            }\n\n            .info-grid {\n                grid-template-columns: 1fr;\n            }\n\n            .btn-group {\n                flex-direction: column;\n            }\n\n            .btn {\n                width: 100%;\n            }\n\n            h1 {\n                font-size: 2em;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"status-header\">\n            <div class=\"status-icon\">⚠️</div>\n            <div class=\"status-badge\">✗ WARRANTY EXPIRED</div>\n            <h1>Warranty Expired</h1>\n            <p class=\"subtitle\">This battery is no longer covered under warranty</p>\n        </div>\n\n        <div class=\"battery-display\">\n            <div class=\"battery-icon-large\">🔋</div>\n            <div class=\"battery-details\">\n                <div class=\"battery-label\">Serial Number</div>\n                <div class=\"serial-number\">{{ $json.SerialNumber }}</div>\n            </div>\n        </div>\n\n        <div class=\"info-grid\">\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Customer Name</div>\n                <div class=\"info-card-value\">{{ $json.CustomerName }}</div>\n            </div>\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Phone Number</div>\n                <div class=\"info-card-value\">{{ $json.Phone }}</div>\n            </div>\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Email Address</div>\n                <div class=\"info-card-value\">{{ $json.Email.replace('@', '&#64;').replace('.', '&#46;') }}</div>\n            </div>\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Purchase Date</div>\n                <div class=\"info-card-value\">{{ $json.PurchaseDate.format('dd-LLL-yyyy') }}</div>\n            </div>\n        </div>\n\n        <div class=\"warranty-timeline\">\n            <div class=\"timeline-item\">\n                <span class=\"timeline-label\">📅 Warranty Start Date:</span>\n                <span class=\"timeline-value\">{{ $json.PurchaseDate.format('dd-LLL-yyyy') }}</span>\n            </div>\n            <div class=\"timeline-item\">\n                <span class=\"timeline-label\">⏰ Warranty Expiry Date:</span>\n                <span class=\"timeline-value\">{{ $json.ExpiryDate.format('dd-LLL-yyyy') }}</span>\n            </div>\n            <div class=\"timeline-item\">\n                <span class=\"timeline-label\">⏳ Expired:</span>\n                <span class=\"timeline-value\" style=\"color: #ef4444; font-weight: 700;\">\n{{ (Math.round(Number($now.diffTo($json.ExpiryDate, 'days')))).abs() }}\n days ago</span>\n            </div>\n        </div>\n\n        <div class=\"expired-alert\">\n            <h3>⚠️ Warranty Period Ended</h3>\n            <p>Your warranty coverage expired on <strong>{{ $json.ExpiryDate.format('dd-LLL-yyyy') }}</strong>. The standard 24-month warranty period has concluded.</p>\n            <p>For any service or replacement needs, please contact our customer support team. Extended warranty options may be available.</p>\n        </div>\n\n        <div class=\"contact-box\">\n            <h3>📞 Need Help?</h3>\n            <div class=\"contact-item\">\n                <span>📱</span>\n                <span><strong>Phone:</strong> +91-1800-123-4567</span>\n            </div>\n            <div class=\"contact-item\">\n                <span>📧</span>\n                <span><strong>Email:</strong> support@carbattery.com</span>\n            </div>\n            <div class=\"contact-item\">\n                <span>🕐</span>\n                <span><strong>Hours:</strong> Mon-Sat, 9 AM - 6 PM</span>\n            </div>\n        </div>\n\n        <div class=\"btn-group\">\n            <button class=\"btn btn-primary\" onclick=\"window.location.href='mailto:support@carbattery.com'\">\n                Contact Support\n            </button>\n            <button class=\"btn btn-secondary\" onclick=\"window.close()\">\n                Close Window\n            </button>\n        </div>\n    </div>\n</body>\n</html>\n\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        464,
+        448
+      ],
+      "id": "ee8d4120-9889-4d77-b256-cbc4fdcc46ee",
+      "name": "Warranty Expired"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Warranty Status - Valid</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #10b981 0%, #059669 100%);\n            min-height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 20px;\n        }\n\n        .container {\n            background: white;\n            border-radius: 20px;\n            padding: 50px;\n            max-width: 700px;\n            width: 100%;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);\n            animation: slideUp 0.6s ease-out;\n        }\n\n        @keyframes slideUp {\n            from {\n                opacity: 0;\n                transform: translateY(30px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        .status-header {\n            text-align: center;\n            margin-bottom: 30px;\n        }\n\n        .status-icon {\n            font-size: 5em;\n            margin-bottom: 15px;\n            animation: pulse 2s ease-in-out infinite;\n        }\n\n        @keyframes pulse {\n            0%, 100% { transform: scale(1); }\n            50% { transform: scale(1.1); }\n        }\n\n        .status-badge {\n            background: linear-gradient(135deg, #10b981 0%, #059669 100%);\n            color: white;\n            padding: 12px 30px;\n            border-radius: 25px;\n            font-size: 1.3em;\n            font-weight: 700;\n            display: inline-block;\n            margin-bottom: 15px;\n        }\n\n        h1 {\n            color: #065f46;\n            font-size: 2.5em;\n            margin-bottom: 10px;\n        }\n\n        .subtitle {\n            color: #059669;\n            font-size: 1.1em;\n        }\n\n        .battery-display {\n            background: #f0fdf4;\n            border: 3px solid #10b981;\n            border-radius: 20px;\n            padding: 30px;\n            margin: 30px 0;\n            display: flex;\n            align-items: center;\n            gap: 25px;\n        }\n\n        .battery-icon-large {\n            font-size: 4em;\n            filter: drop-shadow(0 4px 6px rgba(16, 185, 129, 0.3));\n        }\n\n        .battery-details {\n            flex: 1;\n        }\n\n        .serial-number {\n            font-size: 1.8em;\n            color: #065f46;\n            font-weight: 700;\n            margin-bottom: 8px;\n        }\n\n        .battery-label {\n            color: #059669;\n            font-size: 0.95em;\n            font-weight: 600;\n        }\n\n        .info-grid {\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 20px;\n            margin: 30px 0;\n        }\n\n        .info-card {\n            background: #f9fafb;\n            border: 2px solid #e5e7eb;\n            border-radius: 15px;\n            padding: 20px;\n            transition: all 0.3s ease;\n        }\n\n        .info-card:hover {\n            border-color: #10b981;\n            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);\n        }\n\n        .info-card-label {\n            color: #6b7280;\n            font-size: 0.85em;\n            font-weight: 600;\n            text-transform: uppercase;\n            margin-bottom: 8px;\n        }\n\n        .info-card-value {\n            color: #1f2937;\n            font-size: 1.3em;\n            font-weight: 600;\n        }\n\n        .warranty-timeline {\n            background: #dbeafe;\n            border-left: 4px solid #3b82f6;\n            padding: 25px;\n            border-radius: 15px;\n            margin: 25px 0;\n        }\n\n        .timeline-item {\n            display: flex;\n            justify-content: space-between;\n            padding: 12px 0;\n            border-bottom: 1px solid #bfdbfe;\n        }\n\n        .timeline-item:last-child {\n            border-bottom: none;\n        }\n\n        .timeline-label {\n            color: #1e40af;\n            font-weight: 600;\n        }\n\n        .timeline-value {\n            color: #1e3a8a;\n            font-weight: 500;\n        }\n\n        .coverage-box {\n            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);\n            border: 2px solid #10b981;\n            border-radius: 15px;\n            padding: 25px;\n            margin: 25px 0;\n        }\n\n        .coverage-box h3 {\n            color: #065f46;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .coverage-box ul {\n            list-style: none;\n            padding: 0;\n        }\n\n        .coverage-box li {\n            color: #064e3b;\n            padding: 8px 0;\n            padding-left: 30px;\n            position: relative;\n        }\n\n        .coverage-box li:before {\n            content: '✓';\n            position: absolute;\n            left: 0;\n            color: #10b981;\n            font-weight: 700;\n            font-size: 1.2em;\n        }\n\n        .btn {\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            color: white;\n            padding: 15px 40px;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            width: 100%;\n            margin-top: 20px;\n            transition: all 0.3s ease;\n        }\n\n        .btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);\n        }\n\n        @media (max-width: 768px) {\n            .container {\n                padding: 30px;\n            }\n\n            .battery-display {\n                flex-direction: column;\n                text-align: center;\n            }\n\n            .info-grid {\n                grid-template-columns: 1fr;\n            }\n\n            h1 {\n                font-size: 2em;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"status-header\">\n            <div class=\"status-icon\">🔋</div>\n            <div class=\"status-badge\">✓ WARRANTY ACTIVE</div>\n            <h1>Warranty Valid</h1>\n            <p class=\"subtitle\">Your battery is covered under warranty</p>\n        </div>\n\n        <div class=\"battery-display\">\n            <div class=\"battery-icon-large\">🔋</div>\n            <div class=\"battery-details\">\n                <div class=\"battery-label\">Serial Number</div>\n                <div class=\"serial-number\">{{ $json.SerialNumber }}</div>\n            </div>\n        </div>\n\n        <div class=\"info-grid\">\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Customer Name</div>\n                <div class=\"info-card-value\">{{ $json.CustomerName }}</div>\n            </div>\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Phone Number</div>\n                <div class=\"info-card-value\">{{ $json.Phone }}</div>\n            </div>\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Email Address</div>\n                <div class=\"info-card-value\">{{ $json.Email.replace('@', '&#64;').replace('.', '&#46;') }}</div>\n            </div>\n            <div class=\"info-card\">\n                <div class=\"info-card-label\">Purchase Date</div>\n                <div class=\"info-card-value\">{{ $json.PurchaseDate.format('dd-LLL-yyyy') }}</div>\n            </div>\n        </div>\n\n        <div class=\"warranty-timeline\">\n            <div class=\"timeline-item\">\n                <span class=\"timeline-label\">📅 Warranty Start Date:</span>\n                <span class=\"timeline-value\">{{ $json.PurchaseDate.format('dd-LLL-yyyy') }}</span>\n            </div>\n            <div class=\"timeline-item\">\n                <span class=\"timeline-label\">⏰ Warranty Expiry Date:</span>\n                <span class=\"timeline-value\">{{ $json.ExpiryDate.format('dd-LLL-yyyy') }}</span>\n            </div>\n            <div class=\"timeline-item\">\n                <span class=\"timeline-label\">⏳ Days Remaining:</span>\n                <span class=\"timeline-value\" style=\"color: #10b981; font-weight: 700;\">{{ (Math.round($now.diffTo($json.ExpiryDate,'days'))).abs() }} days</span>\n            </div>\n        </div>\n\n        <div class=\"coverage-box\">\n            <h3>✅ What's Covered</h3>\n            <ul>\n                <li>Manufacturing defects</li>\n                <li>Premature battery failure</li>\n                <li>Performance degradation below specified levels</li>\n                <li>Free replacement for valid claims</li>\n            </ul>\n        </div>\n\n        <button class=\"btn\" onclick=\"window.close()\">Close Window</button>\n    </div>\n</body>\n</html>\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        464,
+        640
+      ],
+      "id": "1a834f47-460c-4414-bd4e-f35a2e8be255",
+      "name": "Warranty Active"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Not Registered - Serial Number</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);\n            min-height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 20px;\n        }\n\n        .container {\n            background: white;\n            border-radius: 20px;\n            padding: 50px;\n            max-width: 700px;\n            width: 100%;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);\n            animation: slideUp 0.6s ease-out;\n        }\n\n        @keyframes slideUp {\n            from {\n                opacity: 0;\n                transform: translateY(30px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        .status-header {\n            text-align: center;\n            margin-bottom: 30px;\n        }\n\n        .status-icon {\n            font-size: 5em;\n            margin-bottom: 15px;\n        }\n\n        .status-badge {\n            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);\n            color: white;\n            padding: 12px 30px;\n            border-radius: 25px;\n            font-size: 1.3em;\n            font-weight: 700;\n            display: inline-block;\n            margin-bottom: 15px;\n        }\n\n        h1 {\n            color: #92400e;\n            font-size: 2.5em;\n            margin-bottom: 10px;\n        }\n\n        .subtitle {\n            color: #d97706;\n            font-size: 1.1em;\n        }\n\n        .battery-display {\n            background: #fef3c7;\n            border: 3px solid #f59e0b;\n            border-radius: 20px;\n            padding: 30px;\n            margin: 30px 0;\n            display: flex;\n            align-items: center;\n            gap: 25px;\n        }\n\n        .battery-icon-large {\n            font-size: 4em;\n            opacity: 0.7;\n        }\n\n        .battery-details {\n            flex: 1;\n        }\n\n        .serial-number {\n            font-size: 1.8em;\n            color: #92400e;\n            font-weight: 700;\n            margin-bottom: 8px;\n        }\n\n        .battery-label {\n            color: #d97706;\n            font-size: 0.95em;\n            font-weight: 600;\n        }\n\n        .warning-alert {\n            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);\n            border: 2px solid #f59e0b;\n            border-radius: 15px;\n            padding: 25px;\n            margin: 25px 0;\n        }\n\n        .warning-alert h3 {\n            color: #92400e;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .warning-alert p {\n            color: #78350f;\n            line-height: 1.8;\n            margin-bottom: 15px;\n            font-size: 1.05em;\n        }\n\n        .warning-alert p:last-child {\n            margin-bottom: 0;\n        }\n\n        .action-box {\n            background: #dcfce7;\n            border-left: 4px solid #22c55e;\n            padding: 25px;\n            border-radius: 15px;\n            margin: 25px 0;\n        }\n\n        .action-box h3 {\n            color: #166534;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .action-box p {\n            color: #14532d;\n            line-height: 1.8;\n            font-size: 1.05em;\n            margin-bottom: 15px;\n        }\n\n        .benefits-list {\n            background: white;\n            border-radius: 10px;\n            padding: 20px;\n            margin-top: 15px;\n        }\n\n        .benefit-item {\n            display: flex;\n            align-items: center;\n            gap: 12px;\n            padding: 10px 0;\n            color: #166534;\n            font-weight: 500;\n        }\n\n        .benefit-icon {\n            font-size: 1.3em;\n        }\n\n        .contact-box {\n            background: #f3f4f6;\n            border-left: 4px solid #6b7280;\n            padding: 25px;\n            border-radius: 15px;\n            margin: 25px 0;\n        }\n\n        .contact-box h3 {\n            color: #374151;\n            margin-bottom: 15px;\n            font-size: 1.3em;\n        }\n\n        .contact-item {\n            display: flex;\n            align-items: center;\n            gap: 15px;\n            margin: 12px 0;\n            color: #4b5563;\n            font-size: 1.1em;\n        }\n\n        .contact-item strong {\n            color: #374151;\n        }\n\n        .btn-group {\n            display: flex;\n            gap: 15px;\n            margin-top: 30px;\n            flex-wrap: wrap;\n        }\n\n        .btn {\n            flex: 1;\n            padding: 15px 30px;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.3s ease;\n            min-width: 200px;\n        }\n\n        .btn-primary {\n            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);\n            color: white;\n        }\n\n        .btn-secondary {\n            background: #f3f4f6;\n            color: #374151;\n            border: 2px solid #d1d5db;\n        }\n\n        .btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);\n        }\n\n        @media (max-width: 768px) {\n            .container {\n                padding: 30px;\n            }\n\n            .battery-display {\n                flex-direction: column;\n                text-align: center;\n            }\n\n            .btn-group {\n                flex-direction: column;\n            }\n\n            .btn {\n                width: 100%;\n            }\n\n            h1 {\n                font-size: 2em;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"status-header\">\n            <div class=\"status-icon\">⚠️</div>\n            <div class=\"status-badge\">✗ NOT REGISTERED</div>\n            <h1>Serial Number Not Found</h1>\n            <p class=\"subtitle\">This battery is not registered in our system</p>\n        </div>\n\n        <div class=\"battery-display\">\n            <div class=\"battery-icon-large\">🔋</div>\n            <div class=\"battery-details\">\n                <div class=\"battery-label\">Serial Number</div>\n                <div class=\"serial-number\">{{ $('Find Serial Number').item.json.SerialNumber }}</div>\n            </div>\n        </div>\n\n        <div class=\"warning-alert\">\n            <h3>📋 Registration Required</h3>\n            <p>We could not find this serial number in our warranty database.</p>\n            <p><strong>To check warranty status, you must first register your battery.</strong> Registration is quick, free, and ensures your warranty coverage is properly documented.</p>\n        </div>\n\n        <div class=\"action-box\">\n            <h3>✅ Why Register Your Battery?</h3>\n            <p>Registering your battery warranty provides you with important benefits and protections:</p>\n            \n            <div class=\"benefits-list\">\n                <div class=\"benefit-item\">\n                    <span class=\"benefit-icon\">🛡️</span>\n                    <span>Activate your 24-month warranty coverage</span>\n                </div>\n                <div class=\"benefit-item\">\n                    <span class=\"benefit-icon\">📅</span>\n                    <span>Track warranty expiration dates easily</span>\n                </div>\n                <div class=\"benefit-item\">\n                    <span class=\"benefit-icon\">⚡</span>\n                    <span>Quick and hassle-free warranty claims</span>\n                </div>\n                <div class=\"benefit-item\">\n                    <span class=\"benefit-icon\">🔔</span>\n                    <span>Receive important product updates and recalls</span>\n                </div>\n                <div class=\"benefit-item\">\n                    <span class=\"benefit-icon\">📞</span>\n                    <span>Priority customer support access</span>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"contact-box\">\n            <h3>📞 Need Help?</h3>\n            <div class=\"contact-item\">\n                <span>📱</span>\n                <span><strong>Phone:</strong> +91-1800-123-4567</span>\n            </div>\n            <div class=\"contact-item\">\n                <span>📧</span>\n                <span><strong>Email:</strong> support&#64;carbattery&#46;com</span>\n            </div>\n            <div class=\"contact-item\">\n                <span>🕐</span>\n                <span><strong>Hours:</strong> Mon-Sat, 9 AM - 6 PM</span>\n            </div>\n        </div>\n\n        <div class=\"btn-group\">\n            <button class=\"btn btn-primary\" onclick=\"registerWarranty()\">\n                Register Warranty Now\n            </button>\n            <button class=\"btn btn-secondary\" onclick=\"window.close()\">\n                Close Window\n            </button>\n        </div>\n    </div>\n\n    <script>\n        function registerWarranty() {\n            // Add your warranty registration logic here\n            alert('Redirecting to warranty registration page...');\n            // Example: window.location.href = 'register.html?serial=' + document.querySelector('.serial-number').textContent;\n        }\n    </script>\n</body>\n</html>\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        736
+      ],
+      "id": "a0380707-fa5d-4576-a4f0-fd544358e6f8",
+      "name": "Serial Number not found"
+    },
+    {
+      "parameters": {
+        "content": "## Warranty Page Load\n",
+        "height": 224,
+        "width": 544
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        -240
+      ],
+      "id": "cf3cb18f-8f95-4e06-9520-936d26d8c059",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Warranty Registration",
+        "height": 352,
+        "width": 1216
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        16
+      ],
+      "id": "46966a04-5ab5-487f-9686-055fed11835d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Warranty Status Check",
+        "height": 480,
+        "width": 1216
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        400
+      ],
+      "id": "05bbb9db-f83b-435f-975d-6604493847f0",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Car Battery Warranty Registration</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            min-height: 100vh;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 20px;\n        }\n\n        .container {\n            max-width: 1200px;\n            width: 100%;\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 30px;\n            margin: 40px auto;\n        }\n\n        .card {\n            background: white;\n            border-radius: 20px;\n            padding: 40px;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);\n            animation: slideUp 0.6s ease-out;\n        }\n\n        @keyframes slideUp {\n            from {\n                opacity: 0;\n                transform: translateY(30px);\n            }\n            to {\n                opacity: 1;\n                transform: translateY(0);\n            }\n        }\n\n        .card h2 {\n            color: #1e3c72;\n            font-size: 2em;\n            margin-bottom: 10px;\n            display: flex;\n            align-items: center;\n            gap: 15px;\n        }\n\n        .card p {\n            color: #64748b;\n            margin-bottom: 30px;\n            line-height: 1.6;\n        }\n\n        .icon {\n            font-size: 2.5em;\n        }\n\n        .form-group {\n            margin-bottom: 25px;\n        }\n\n        label {\n            display: block;\n            color: #334155;\n            font-weight: 600;\n            margin-bottom: 8px;\n            font-size: 0.95em;\n        }\n\n        input {\n            width: 100%;\n            padding: 14px 18px;\n            border: 2px solid #e2e8f0;\n            border-radius: 10px;\n            font-size: 1em;\n            transition: all 0.3s ease;\n            font-family: inherit;\n        }\n\n        input:focus {\n            outline: none;\n            border-color: #1e3c72;\n            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);\n        }\n\n        .btn {\n            width: 100%;\n            padding: 16px;\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            color: white;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.3s ease;\n            margin-top: 10px;\n        }\n\n        .btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);\n        }\n\n        .btn:active {\n            transform: translateY(0);\n        }\n\n        .btn-secondary {\n            background: linear-gradient(135deg, #10b981 0%, #059669 100%);\n        }\n\n        .divider {\n            text-align: center;\n            margin: 20px 0;\n            color: #94a3b8;\n            font-weight: 600;\n        }\n\n        .message {\n            padding: 15px;\n            border-radius: 10px;\n            margin-top: 20px;\n            display: none;\n            animation: fadeIn 0.3s ease;\n        }\n\n        @keyframes fadeIn {\n            from { opacity: 0; }\n            to { opacity: 1; }\n        }\n\n        .message.success {\n            background: #d1fae5;\n            color: #065f46;\n            border-left: 4px solid #10b981;\n        }\n\n        .message.error {\n            background: #fee2e2;\n            color: #991b1b;\n            border-left: 4px solid #ef4444;\n        }\n\n        .loading {\n            display: none;\n            text-align: center;\n            margin-top: 20px;\n        }\n\n        .spinner {\n            border: 3px solid #f3f4f6;\n            border-top: 3px solid #1e3c72;\n            border-radius: 50%;\n            width: 40px;\n            height: 40px;\n            animation: spin 1s linear infinite;\n            margin: 0 auto;\n        }\n\n        @keyframes spin {\n            0% { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n        }\n\n        @media (max-width: 968px) {\n            .container {\n                grid-template-columns: 1fr;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <!-- Registration Form -->\n        <div class=\"card\">\n            <h2>\n                <span class=\"icon\">🔋</span>\n                Warranty Registration\n            </h2>\n            <p>Register your car battery to activate warranty coverage</p>\n\n            <form id=\"registrationForm\">\n                <div class=\"form-group\">\n                    <label for=\"serialNumber\">Battery Serial Number *</label>\n                    <input type=\"text\" id=\"serialNumber\" name=\"serialNumber\" required \n                           placeholder=\"Enter 10-digit serial number\" maxlength=\"20\">\n                </div>\n\n                <div class=\"form-group\">\n                    <label for=\"customerName\">Full Name *</label>\n                    <input type=\"text\" id=\"customerName\" name=\"customerName\" required \n                           placeholder=\"Enter your full name\">\n                </div>\n\n                <div class=\"form-group\">\n                    <label for=\"phoneNumber\">Phone Number *</label>\n                    <input type=\"tel\" id=\"phoneNumber\" name=\"phoneNumber\" required \n                           placeholder=\"Enter 10-digit phone number\" maxlength=\"10\" pattern=\"[0-9]{10}\">\n                </div>\n\n                <div class=\"form-group\">\n                    <label for=\"email\">Email Address *</label>\n                    <input type=\"email\" id=\"email\" name=\"email\" required \n                           placeholder=\"your.email@example.com\">\n                </div>\n\n                <div class=\"form-group\">\n                    <label for=\"purchaseDate\">Date of Purchase *</label>\n                    <input type=\"date\" id=\"purchaseDate\" name=\"purchaseDate\" required>\n                </div>\n\n                <button type=\"submit\" class=\"btn\">Register Warranty</button>\n\n                <div class=\"loading\" id=\"registerLoading\">\n                    <div class=\"spinner\"></div>\n                    <p style=\"margin-top: 10px; color: #64748b;\">Processing registration...</p>\n                </div>\n\n                <div class=\"message\" id=\"registerMessage\"></div>\n            </form>\n        </div>\n\n        <!-- Warranty Check Form -->\n        <div class=\"card\">\n            <h2>\n                <span class=\"icon\">🔍</span>\n                Check Warranty Status\n            </h2>\n            <p>Verify your warranty coverage and registration details</p>\n\n            <form id=\"checkForm\">\n                <div class=\"form-group\">\n                    <label for=\"checkSerialNumber\">Battery Serial Number *</label>\n                    <input type=\"text\" id=\"checkSerialNumber\" name=\"checkSerialNumber\" required \n                           placeholder=\"Enter your battery serial number\" maxlength=\"20\">\n                </div>\n\n                <button type=\"submit\" class=\"btn btn-secondary\">Check Warranty Status</button>\n\n                <div class=\"loading\" id=\"checkLoading\">\n                    <div class=\"spinner\"></div>\n                    <p style=\"margin-top: 10px; color: #64748b;\">Checking warranty status...</p>\n                </div>\n\n                <div class=\"message\" id=\"checkMessage\"></div>\n            </form>\n        </div>\n    </div>\n\n    <script>\n        // Helper to create a temporary URL for HTML content\n        function createPageUrl(title, htmlContent) {\n            const fullHtml = `\n                <!DOCTYPE html>\n                <html>\n                <head>\n                    <title>${title}</title>\n                    <meta charset=\"UTF-8\">\n                    <style>\n                        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #f8fafc; }\n                    </style>\n                </head>\n                <body>\n                    ${htmlContent}\n                </body>\n                </html>\n            `;\n            const blob = new Blob([fullHtml], { type: 'text/html' });\n            return URL.createObjectURL(blob);\n        }\n\n        // Loading Screen HTML\n        const loadingContent = `\n            <div style=\"display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; color: #1e3c72;\">\n                <div style=\"border: 5px solid #e2e8f0; border-top: 5px solid #1e3c72; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite;\"></div>\n                <h2 style=\"margin-top: 25px;\">Processing...</h2>\n                <p style=\"color: #64748b;\">Please wait while we connect to the server.</p>\n            </div>\n            <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>\n        `;\n\n        // Registration Form Handler\n        document.getElementById('registrationForm').addEventListener('submit', async (e) => {\n            e.preventDefault();\n            \n            const form = e.target;\n            const submitBtn = form.querySelector('button[type=\"submit\"]');\n            const loading = document.getElementById('registerLoading');\n            const message = document.getElementById('registerMessage');\n\n            // 1. Create a Blob URL for the loading screen\n            const loadingUrl = createPageUrl('Processing Registration', loadingContent);\n            \n            // 2. Open the window pointing to that URL (Browsers allow navigation)\n            const resultWindow = window.open(loadingUrl, '_blank');\n\n            if (!resultWindow) {\n                alert('Pop-up blocked. Please allow pop-ups for this site.');\n                return;\n            }\n\n            // UI Updates\n            submitBtn.disabled = true;\n            loading.style.display = 'block';\n            message.style.display = 'none';\n            \n            // Collect Data\n            const formData = {\n                serialNumber: document.getElementById('serialNumber').value,\n                customerName: document.getElementById('customerName').value,\n                phoneNumber: document.getElementById('phoneNumber').value,\n                email: document.getElementById('email').value,\n                purchaseDate: document.getElementById('purchaseDate').value\n            };\n            \n            try {\n                const response = await fetch('http://localhost:5678/webhook/warranty-registration-click', {\n                    method: 'POST',\n                    headers: { 'Content-Type': 'application/json' },\n                    body: JSON.stringify(formData)\n                });\n                \n                const resultHtml = await response.text();\n                \n                // 3. Create a URL for the result and navigate the window to it\n                // We use the raw resultHtml assuming the API returns a full HTML page\n                const resultBlob = new Blob([resultHtml], { type: 'text/html' });\n                const resultUrl = URL.createObjectURL(resultBlob);\n                \n                resultWindow.location.href = resultUrl;\n                \n                // Cleanup UI\n                loading.style.display = 'none';\n                submitBtn.disabled = false;\n                \n                if (response.ok) {\n                    form.reset();\n                    message.className = 'message success';\n                    message.textContent = 'Registration submitted! Check the new window.';\n                    message.style.display = 'block';\n                }\n                \n            } catch (error) {\n                console.error(error);\n                loading.style.display = 'none';\n                submitBtn.disabled = false;\n                message.className = 'message error';\n                message.textContent = 'Connection error. Please check your internet.';\n                message.style.display = 'block';\n\n                // Navigate popup to error message\n                const errorUrl = createPageUrl('Error', '<h2 style=\"text-align:center; color:#991b1b; margin-top:50px;\">Connection Failed</h2><p style=\"text-align:center;\">Could not reach the server.</p>');\n                if(resultWindow) resultWindow.location.href = errorUrl;\n            }\n        });\n        \n        // Warranty Check Form Handler\n        document.getElementById('checkForm').addEventListener('submit', async (e) => {\n            e.preventDefault();\n            \n            const form = e.target;\n            const submitBtn = form.querySelector('button[type=\"submit\"]');\n            const loading = document.getElementById('checkLoading');\n            const message = document.getElementById('checkMessage');\n            const serialNumber = document.getElementById('checkSerialNumber').value;\n            \n            // 1. Open Loading Blob\n            const loadingUrl = createPageUrl('Checking Status', loadingContent);\n            const resultWindow = window.open(loadingUrl, '_blank');\n\n            submitBtn.disabled = true;\n            loading.style.display = 'block';\n            message.style.display = 'none';\n            \n            try {\n                const response = await fetch(`http://localhost:5678/webhook/warranty-status-checker`, {\n                    method: 'POST',\n                    headers: { 'Content-Type': 'application/json' },\n                    body: JSON.stringify({ serialNumber: serialNumber })\n                });\n                \n                const resultHtml = await response.text();\n                \n                // 2. Navigate to Result Blob\n                const resultBlob = new Blob([resultHtml], { type: 'text/html' });\n                const resultUrl = URL.createObjectURL(resultBlob);\n                \n                if(resultWindow) resultWindow.location.href = resultUrl;\n                \n                loading.style.display = 'none';\n                submitBtn.disabled = false;\n                \n            } catch (error) {\n                loading.style.display = 'none';\n                submitBtn.disabled = false;\n                message.className = 'message error';\n                message.textContent = 'Connection error.';\n                message.style.display = 'block';\n                \n                const errorUrl = createPageUrl('Error', '<h2 style=\"text-align:center; color:#991b1b; margin-top:50px;\">Connection Failed</h2>');\n                if(resultWindow) resultWindow.location.href = errorUrl;\n            }\n        });\n    </script>\n</body>\n</html>\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -192,
+        -176
+      ],
+      "id": "99840635-9c7a-4866-9bbf-0046b938665c",
+      "name": "Page Load HTML"
+    },
+    {
+      "parameters": {
+        "path": "battery-warranty-system",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -416,
+        -176
+      ],
+      "id": "32fbdc4a-3518-4c1b-b73f-7f1f27341baa",
+      "name": "Warranty Page Load",
+      "webhookId": "137ed85c-0553-425d-94ba-e5cc9212b334"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "sFEwYVuIAXlOgkwR",
+          "mode": "list",
+          "cachedResultName": "Warranty Registration V1",
+          "cachedResultUrl": "/projects/UherE23ZLoWlABdH/datatables/sFEwYVuIAXlOgkwR"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "SerialNumber",
+              "keyValue": "={{ $json.body.serialNumber }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        128
+      ],
+      "id": "f2c2a22e-a3f6-4968-93b7-b7bb8a14ce4e",
+      "name": "Search Existing Registration",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "sFEwYVuIAXlOgkwR",
+          "mode": "list",
+          "cachedResultName": "Warranty Registration V1",
+          "cachedResultUrl": "/projects/UherE23ZLoWlABdH/datatables/sFEwYVuIAXlOgkwR"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "SerialNumber": "={{ $('Warranty Registration Button Click').item.json.body.serialNumber }}",
+            "CustomerName": "={{ $('Warranty Registration Button Click').item.json.body.customerName }}",
+            "Email": "={{ $('Warranty Registration Button Click').item.json.body.email }}",
+            "Phone": "={{ $('Warranty Registration Button Click').item.json.body.phoneNumber }}",
+            "PurchaseDate": "={{ $('Warranty Registration Button Click').item.json.body.purchaseDate }}",
+            "ExpiryDate": "={{ $('Warranty Registration Button Click').item.json.body.purchaseDate.toDateTime().plus(2, 'years') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "SerialNumber",
+              "displayName": "SerialNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "CustomerName",
+              "displayName": "CustomerName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "PurchaseDate",
+              "displayName": "PurchaseDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ExpiryDate",
+              "displayName": "ExpiryDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        256,
+        224
+      ],
+      "id": "09307e20-e0ef-4e7d-9864-f74282a85128",
+      "name": "Create New Registration"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e1e087a9-a12e-439e-8621-9b339115caa1",
+              "leftValue": "={{ $json.SerialNumber }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        16,
+        640
+      ],
+      "id": "1df31bbc-f159-41ab-b444-52a8fab599db",
+      "name": "Serial Number Exists?"
+    }
+  ],
+  "pinData": {
+    "Warranty Status Check": [
+      {
+        "json": {
+          "headers": {
+            "host": "localhost:5678",
+            "connection": "keep-alive",
+            "content-length": "29",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+            "content-type": "application/json",
+            "sec-ch-ua-mobile": "?0",
+            "accept": "*/*",
+            "origin": "null",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "serialNumber": "1234567890"
+          },
+          "webhookUrl": "http://localhost:5678/webhook/warranty-status-checker",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Warranty Registration Button Click": [
+      {
+        "json": {
+          "headers": {
+            "host": "localhost:5678",
+            "connection": "keep-alive",
+            "content-length": "134",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+            "sec-ch-ua": "\"Chromium\";v=\"142\", \"Google Chrome\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+            "content-type": "application/json",
+            "sec-ch-ua-mobile": "?0",
+            "accept": "*/*",
+            "origin": "null",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "serialNumber": "1234567899",
+            "customerName": "A",
+            "phoneNumber": "0987456321",
+            "email": "ai.hh.labs@gmail.com",
+            "purchaseDate": "2025-07-17"
+          },
+          "webhookUrl": "http://localhost:5678/webhook/warranty-registration-click",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Warranty Status Check": {
+      "main": [
+        [
+          {
+            "node": "Find Serial Number",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Warranty Registration Button Click": {
+      "main": [
+        [
+          {
+            "node": "Search Existing Registration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registration Exists?": {
+      "main": [
+        [
+          {
+            "node": "Registration Exists Page",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create New Registration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Serial Number": {
+      "main": [
+        [
+          {
+            "node": "Serial Number Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Page Load HTML": {
+      "main": [
+        []
+      ]
+    },
+    "Warranty Page Load": {
+      "main": [
+        [
+          {
+            "node": "Page Load HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Existing Registration": {
+      "main": [
+        [
+          {
+            "node": "Registration Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create New Registration": {
+      "main": [
+        [
+          {
+            "node": "Registration Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Serial Number Exists?": {
+      "main": [
+        [
+          {
+            "node": "Warranty Expired",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Serial Number not found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9135c806-8163-4b57-a357-e9b34197b714",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b6385d01e960a423f4f7fd4275bf102c5db19d74bd620a0150e7fbe17781202"
+  },
+  "id": "8l3DZnjlxvc41AuM",
+  "tags": []
+}
