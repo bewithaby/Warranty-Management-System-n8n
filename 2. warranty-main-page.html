@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Battery Warranty Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card h2 {
+            color: #1e3c72;
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card p {
+            color: #64748b;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .icon {
+            font-size: 2.5em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #1e3c72;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Registration Form -->
+        <div class="card">
+            <h2>
+                <span class="icon">🔋</span>
+                Warranty Registration
+            </h2>
+            <p>Register your car battery to activate warranty coverage</p>
+
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="serialNumber">Battery Serial Number *</label>
+                    <input type="text" id="serialNumber" name="serialNumber" required 
+                           placeholder="Enter 10-digit serial number" maxlength="20">
+                </div>
+
+                <div class="form-group">
+                    <label for="customerName">Full Name *</label>
+                    <input type="text" id="customerName" name="customerName" required 
+                           placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number *</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" required 
+                           placeholder="Enter 10-digit phone number" maxlength="10" pattern="[0-9]{10}">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="your.email@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="purchaseDate">Date of Purchase *</label>
+                    <input type="date" id="purchaseDate" name="purchaseDate" required>
+                </div>
+
+                <button type="submit" class="btn">Register Warranty</button>
+
+                <div class="loading" id="registerLoading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 10px; color: #64748b;">Processing registration...</p>
+                </div>
+
+                <div class="message" id="registerMessage"></div>
+            </form>
+        </div>
+
+        <!-- Warranty Check Form -->
+        <div class="card">
+            <h2>
+                <span class="icon">🔍</span>
+                Check Warranty Status
+            </h2>
+            <p>Verify your warranty coverage and registration details</p>
+
+            <form id="checkForm">
+                <div class="form-group">
+                    <label for="checkSerialNumber">Battery Serial Number *</label>
+                    <input type="text" id="checkSerialNumber" name="checkSerialNumber" required 
+                           placeholder="Enter your battery serial number" maxlength="20">
+                </div>
+
+                <button type="submit" class="btn btn-secondary">Check Warranty Status</button>
+
+                <div class="loading" id="checkLoading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 10px; color: #64748b;">Checking warranty status...</p>
+                </div>
+
+                <div class="message" id="checkMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Registration Form Handler
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const loading = document.getElementById('registerLoading');
+            const message = document.getElementById('registerMessage');
+            
+            // Get form data
+            const formData = {
+                serialNumber: document.getElementById('serialNumber').value,
+                customerName: document.getElementById('customerName').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                email: document.getElementById('email').value,
+                purchaseDate: document.getElementById('purchaseDate').value
+            };
+            
+            // Show loading
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            message.style.display = 'none';
+            
+            try {
+                const response = await fetch('https://n8nadmin.1automation.us/webhook/Warranty-Registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.text();
+                
+                // Hide loading
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Show result in new window
+                const resultWindow = window.open('', '_blank');
+                resultWindow.document.write(result);
+                resultWindow.document.close();
+                
+                // Reset form if successful
+                if (response.ok) {
+                    form.reset();
+                    message.className = 'message success';
+                    message.textContent = 'Registration submitted! Check the new window for confirmation.';
+                    message.style.display = 'block';
+                }
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                message.className = 'message error';
+                message.textContent = 'Connection error. Please check your internet and try again.';
+                message.style.display = 'block';
+            }
+        });
+        
+        // Warranty Check Form Handler
+        document.getElementById('checkForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const loading = document.getElementById('checkLoading');
+            const message = document.getElementById('checkMessage');
+            
+            const serialNumber = document.getElementById('checkSerialNumber').value;
+            
+            // Show loading
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            message.style.display = 'none';
+            
+            try {
+                const response = await fetch(`https://n8nadmin.1automation.us/webhook/Warranty-Status-Check`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ serialNumber: serialNumber })
+                });
+                
+                const result = await response.text();
+                
+                // Hide loading
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Show result in new window
+                const resultWindow = window.open('', '_blank');
+                resultWindow.document.write(result);
+                resultWindow.document.close();
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                message.className = 'message error';
+                message.textContent = 'Connection error. Please check your internet and try again.';
+                message.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
