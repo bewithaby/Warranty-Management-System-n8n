@@ -1,2140 +1,1072 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Warranty Management System - Webhook Automation</title>
-        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warranty Management System - Webhook Automation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            body {
-                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-                background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-                color: #2d3748;
-                overflow-x: hidden;
-            }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #2d3748;
+            overflow-x: hidden;
+        }
 
-            .container {
-                max-width: 1400px;
-                margin: 0 auto;
-                padding: 20px;
-            }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
+        .slide {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            min-height: 500px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide h1 {
+            font-size: 3em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .slide h2 {
+            font-size: 2.2em;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-weight: 600;
+            border-left: 6px solid #1e3c72;
+            padding-left: 20px;
+        }
+
+        .slide h3 {
+            font-size: 1.6em;
+            color: #1e3c72;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .slide p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 600px;
+        }
+
+        .title-slide h1 {
+            color: white;
+            font-size: 4em;
+            margin-bottom: 30px;
+        }
+
+        .title-slide p {
+            color: #e2e8f0;
+            font-size: 1.5em;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffd93d 0%, #ff6b9d 100%);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h4 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #e2e8f0;
+            font-size: 1em;
+        }
+
+        .mermaid-container {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 3px solid #e2e8f0;
+            overflow-x: auto;
+        }
+
+        .info-box {
+            background: #dbeafe;
+            border-left: 6px solid #3b82f6;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .info-box h4 {
+            color: #1e40af;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .info-box p {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .success-box {
+            background: #d1fae5;
+            border-left: 6px solid #10b981;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .success-box h4 {
+            color: #065f46;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .success-box p {
+            color: #064e3b;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 6px solid #f59e0b;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .warning-box h4 {
+            color: #92400e;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .warning-box p {
+            color: #78350f;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #48bb78;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        li {
+            font-size: 1.2em;
+            padding: 15px 20px;
+            margin: 12px 0;
+            background: #f7fafc;
+            border-left: 4px solid #1e3c72;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        li:hover {
+            background: #edf2f7;
+            transform: translateX(10px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .badge-blue {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .badge-green {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge-purple {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .badge-orange {
+            background: #f59e0b;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
             .slide {
-                background: white;
-                border-radius: 20px;
-                padding: 60px;
-                margin: 40px 0;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                min-height: 500px;
-                animation: slideIn 0.6s ease-out;
+                padding: 30px;
             }
-
-            @keyframes slideIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
+            
             .slide h1 {
-                font-size: 3em;
-                color: #1e3c72;
-                margin-bottom: 20px;
-                font-weight: 700;
+                font-size: 2em;
             }
-
+            
             .slide h2 {
-                font-size: 2.2em;
-                color: #4a5568;
-                margin-bottom: 30px;
-                font-weight: 600;
-                border-left: 6px solid #1e3c72;
-                padding-left: 20px;
-            }
-
-            .slide h3 {
                 font-size: 1.6em;
-                color: #1e3c72;
-                margin: 30px 0 15px 0;
-                font-weight: 600;
-            }
-
-            .slide p {
-                font-size: 1.2em;
-                line-height: 1.8;
-                color: #4a5568;
-                margin-bottom: 20px;
-            }
-
-            .title-slide {
-                background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-                color: white;
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                min-height: 600px;
             }
 
             .title-slide h1 {
-                color: white;
-                font-size: 4em;
-                margin-bottom: 30px;
+                font-size: 2.5em;
             }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide">
+            <h1>🔋 Warranty Management System</h1>
+            <p>Powered by n8n Webhook Automation</p>
+            <p style="margin-top: 30px; font-size: 1.2em;">Building Complete Systems with HTML Responses</p>
+            <p style="margin-top: 20px; font-size: 1em; opacity: 0.8;">Abhilash Emmanuel</p>
+        </div>
 
-            .title-slide p {
-                color: #e2e8f0;
-                font-size: 1.5em;
-            }
+        <!-- Slide 2: The Challenge -->
+        <div class="slide">
+            <h2>🎯 The Traditional Challenge</h2>
+            <p>Building warranty management systems traditionally requires:</p>
+            
+            <ul>
+                <li>💰 <strong>Expensive Software</strong> - Monthly SaaS subscriptions or custom development</li>
+                <li>🖥️ <strong>Complex Infrastructure</strong> - Backend servers, databases, hosting</li>
+                <li>👨‍💻 <strong>Developer Teams</strong> - Frontend, backend, and database developers</li>
+                <li>⏱️ <strong>Long Development Time</strong> - 3-6 months to build and deploy</li>
+                <li>🔧 <strong>Ongoing Maintenance</strong> - Constant updates, bug fixes, security patches</li>
+            </ul>
 
-            .highlight {
-                background: linear-gradient(120deg, #ffd93d 0%, #ff6b9d 100%);
-                color: white;
-                padding: 3px 12px;
-                border-radius: 6px;
-                font-weight: 600;
-            }
-
-            .feature-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 25px;
-                margin: 30px 0;
-            }
-
-            .feature-card {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 30px;
-                border-radius: 15px;
-                transition: transform 0.3s ease;
-                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            }
-
-            .feature-card:hover {
-                transform: translateY(-10px);
-            }
-
-            .feature-card h4 {
-                font-size: 1.4em;
-                margin-bottom: 15px;
-            }
-
-            .feature-card p {
-                color: #e2e8f0;
-                font-size: 1em;
-            }
-
-            .mermaid-container {
-                background: #f7fafc;
-                border-radius: 15px;
-                padding: 30px;
-                margin: 30px 0;
-                border: 3px solid #e2e8f0;
-                overflow-x: auto;
-            }
-
-            .info-box {
-                background: #dbeafe;
-                border-left: 6px solid #3b82f6;
-                padding: 25px;
-                border-radius: 12px;
-                margin: 25px 0;
-            }
-
-            .info-box h4 {
-                color: #1e40af;
-                margin-bottom: 15px;
-                font-size: 1.3em;
-            }
-
-            .info-box p {
-                color: #1e3a8a;
-                margin-bottom: 10px;
-            }
-
-            .success-box {
-                background: #d1fae5;
-                border-left: 6px solid #10b981;
-                padding: 25px;
-                border-radius: 12px;
-                margin: 25px 0;
-            }
-
-            .success-box h4 {
-                color: #065f46;
-                margin-bottom: 15px;
-                font-size: 1.3em;
-            }
-
-            .success-box p {
-                color: #064e3b;
-            }
-
-            .warning-box {
-                background: #fef3c7;
-                border-left: 6px solid #f59e0b;
-                padding: 25px;
-                border-radius: 12px;
-                margin: 25px 0;
-            }
-
-            .warning-box h4 {
-                color: #92400e;
-                margin-bottom: 15px;
-                font-size: 1.3em;
-            }
-
-            .warning-box p {
-                color: #78350f;
-            }
-
-            .code-example {
-                background: #2d3748;
-                color: #48bb78;
-                padding: 25px;
-                border-radius: 12px;
-                font-family: "Courier New", monospace;
-                font-size: 1em;
-                margin: 20px 0;
-                overflow-x: auto;
-            }
-
-            .stat-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 20px;
-                margin: 30px 0;
-            }
-
-            .stat-card {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                color: white;
-                padding: 30px;
-                border-radius: 15px;
-                text-align: center;
-            }
-
-            .stat-number {
-                font-size: 3em;
-                font-weight: 700;
-                margin-bottom: 10px;
-            }
-
-            .stat-label {
-                font-size: 1.1em;
-                opacity: 0.9;
-            }
-
-            ul {
-                list-style: none;
-                margin: 20px 0;
-            }
-
-            li {
-                font-size: 1.2em;
-                padding: 15px 20px;
-                margin: 12px 0;
-                background: #f7fafc;
-                border-left: 4px solid #1e3c72;
-                border-radius: 8px;
-                transition: all 0.3s ease;
-            }
-
-            li:hover {
-                background: #edf2f7;
-                transform: translateX(10px);
-            }
-
-            .badge {
-                display: inline-block;
-                padding: 8px 20px;
-                border-radius: 20px;
-                font-size: 0.9em;
-                font-weight: 600;
-                margin: 5px;
-            }
-
-            .badge-blue {
-                background: #3b82f6;
-                color: white;
-            }
-
-            .badge-green {
-                background: #10b981;
-                color: white;
-            }
-
-            .badge-purple {
-                background: #8b5cf6;
-                color: white;
-            }
-
-            .badge-orange {
-                background: #f59e0b;
-                color: white;
-            }
-
-            @media (max-width: 768px) {
-                .slide {
-                    padding: 30px;
-                }
-
-                .slide h1 {
-                    font-size: 2em;
-                }
-
-                .slide h2 {
-                    font-size: 1.6em;
-                }
-
-                .title-slide h1 {
-                    font-size: 2.5em;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Slide 1: Title -->
-            <div class="slide title-slide">
-                <h1>🔋 Warranty Management System</h1>
-                <p>Powered by n8n Webhook Automation</p>
-                <p style="margin-top: 30px; font-size: 1.2em">
-                    Building Complete Systems with HTML Responses
-                </p>
-                <p style="margin-top: 20px; font-size: 1em; opacity: 0.8">
-                    Abhilash Emmanuel
-                </p>
+            <div class="warning-box" style="margin-top: 40px;">
+                <h4>💸 Traditional Approach Costs</h4>
+                <p><strong>Development:</strong> 3-6 months, $10,000-$50,000</p>
+                <p><strong>Infrastructure:</strong> $100-$500/month for hosting</p>
+                <p><strong>Maintenance:</strong> $2,000-$5,000/month for upkeep</p>
+                <p style="margin-top: 15px; font-size: 1.2em;"><strong>Total First Year: $40,000-$100,000+</strong></p>
             </div>
+        </div>
 
-            <!-- Slide 2: The Challenge -->
-            <div class="slide">
-                <h2>🎯 The Traditional Challenge</h2>
-                <p>
-                    Building warranty management systems traditionally requires:
-                </p>
+        <!-- Slide 3: The Solution -->
+        <div class="slide">
+            <h2>✨ The n8n Webhook Solution</h2>
+            <p>Build a complete warranty management system with <span class="highlight">zero backend code</span> and <span class="highlight">minimal hosting costs</span>!</p>
 
-                <ul>
-                    <li>
-                        💰 <strong>Expensive Software</strong> - Monthly SaaS
-                        subscriptions or custom development
-                    </li>
-                    <li>
-                        🖥️ <strong>Complex Infrastructure</strong> - Backend
-                        servers, databases, hosting
-                    </li>
-                    <li>
-                        👨‍💻 <strong>Developer Teams</strong> - Frontend, backend,
-                        and database developers
-                    </li>
-                    <li>
-                        ⏱️ <strong>Long Development Time</strong> - 3-6 months
-                        to build and deploy
-                    </li>
-                    <li>
-                        🔧 <strong>Ongoing Maintenance</strong> - Constant
-                        updates, bug fixes, security patches
-                    </li>
-                </ul>
-
-                <div class="warning-box" style="margin-top: 40px">
-                    <h4>💸 Traditional Approach Costs</h4>
-                    <p>
-                        <strong>Development:</strong> 3-6 months,
-                        $10,000-$50,000
-                    </p>
-                    <p>
-                        <strong>Infrastructure:</strong> $100-$500/month for
-                        hosting
-                    </p>
-                    <p>
-                        <strong>Maintenance:</strong> $2,000-$5,000/month for
-                        upkeep
-                    </p>
-                    <p style="margin-top: 15px; font-size: 1.2em">
-                        <strong>Total First Year: $40,000-$100,000+</strong>
-                    </p>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-number">$0</div>
+                    <div class="stat-label">Backend Hosting</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2-3</div>
+                    <div class="stat-label">Days to Build</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Customizable</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Scalability</div>
                 </div>
             </div>
 
-            <!-- Slide 3: The Solution -->
-            <div class="slide">
-                <h2>✨ The n8n Webhook Solution</h2>
-                <p>
-                    Build a complete warranty management system with
-                    <span class="highlight">zero backend code</span> and
-                    <span class="highlight">minimal hosting costs</span>!
-                </p>
-
-                <div class="stat-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">$0</div>
-                        <div class="stat-label">Backend Hosting</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">2-3</div>
-                        <div class="stat-label">Days to Build</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Customizable</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">∞</div>
-                        <div class="stat-label">Scalability</div>
-                    </div>
-                </div>
-
-                <div class="success-box">
-                    <h4>🎉 What We're Building</h4>
-                    <p>A complete car battery warranty system that handles:</p>
-                    <ul style="margin-top: 15px">
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Customer warranty registration with validation
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Real-time warranty status verification
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Automatic database storage and retrieval
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Dynamic, branded HTML responses
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Automated expiry date calculations
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Professional, mobile-responsive UI
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Slide 4: System Architecture -->
-            <div class="slide">
-                <h2>🏗️ System Architecture Overview</h2>
-
-                <div class="mermaid-container">
-                    <div class="mermaid">
-                        graph LR A[👤 Customer] -->|Opens| B[🌐 Landing Page] B
-                        -->|Register| C{🔗 Webhook 1} B -->|Check Status| D{🔗
-                        Webhook 2} C -->|Process| E[(📊 n8n Database)] D
-                        -->|Query| E C -->|Success| F[✅ Success HTML] C
-                        -->|Error| G[❌ Error HTML] D -->|Valid| H[✅ Valid
-                        HTML] D -->|Expired| I[⚠️ Expired HTML] D -->|Not Found|
-                        J[🔍 Not Found HTML] F -->|Display| A G -->|Display| A H
-                        -->|Display| A I -->|Display| A J -->|Display| A style A
-                        fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-                        style B
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style C
-                        fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
-                        style D
-                        fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
-                        style E
-                        fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
-                        style F
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style G
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style H
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style I
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style J
-                        fill:#f59e0b,stroke:#333,stroke-width:2px,color:#fff
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <h4>🔑 Revolutionary Concept: HTML Webhook Responses</h4>
-                    <p>
-                        Traditional APIs return JSON data that requires a
-                        frontend to render.
-                        <strong
-                            >n8n webhooks return complete, ready-to-display HTML
-                            pages</strong
-                        >.
-                    </p>
-                    <ul style="margin-top: 15px">
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            📄 No separate frontend application needed
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            🎨 Complete control over design and branding
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ⚡ Instant rendering directly in browser
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            💾 Zero hosting costs for response pages
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            🔒 Secure server-side processing
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Slide 5: Registration Workflow -->
-            <div class="slide">
-                <h2>📝 Workflow 1: Warranty Registration</h2>
-
-                <div class="mermaid-container">
-                    <div class="mermaid">
-                        graph TD A[🌐 Customer Submits Form] -->|POST with Data|
-                        B[🎯 Webhook Trigger] B --> C{📋 Validate Input} C
-                        -->|❌ Missing Fields| D[Return Error HTML] C -->|✅
-                        Valid| E[🔍 Check Serial in DB] E --> F{Already Exists?}
-                        F -->|Yes| G[❌ Duplicate Error] F -->|No| H[💾 Insert
-                        Record] H --> I[🧮 Calculate Expiry] I --> J[📄 Build
-                        Success HTML] J --> K[✅ Return to Browser] G --> L[📄
-                        Build Error HTML] D --> M[📄 Build Validation Error] L
-                        --> K M --> K style A
-                        fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-                        style B
-                        fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
-                        style C
-                        fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
-                        style E
-                        fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
-                        style F
-                        fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
-                        style H
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style I
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style J
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style K
-                        fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
-                        style D
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style G
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style L
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style M
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <h4>📦 Data Stored in n8n Database</h4>
-                    <div class="code-example">
-                        {<br />
-                        &nbsp;&nbsp;"serialNumber": "BAT2025001",<br />
-                        &nbsp;&nbsp;"customerName": "Rajesh Kumar",<br />
-                        &nbsp;&nbsp;"phoneNumber": "9876543210",<br />
-                        &nbsp;&nbsp;"email": "rajesh@email.com",<br />
-                        &nbsp;&nbsp;"purchaseDate": "2025-01-15",<br />
-                        &nbsp;&nbsp;"registrationDate": "2025-11-23",<br />
-                        &nbsp;&nbsp;"warrantyStartDate": "2025-01-15",<br />
-                        &nbsp;&nbsp;"warrantyExpiryDate": "2027-01-15"<br />
-                        }
-                    </div>
-                    <p style="margin-top: 15px">
-                        <strong>Note:</strong> Expiry calculated automatically
-                        as Purchase Date + 24 months
-                    </p>
-                </div>
-            </div>
-
-            <!-- Slide 6: Status Check Workflow -->
-            <div class="slide">
-                <h2>🔍 Workflow 2: Warranty Status Check</h2>
-
-                <div class="mermaid-container">
-                    <div class="mermaid">
-                        graph TD A[🌐 Enter Serial Number] -->|POST Request|
-                        B[🎯 Webhook Trigger] B --> C[🔍 Query Database] C -->
-                        D{Record Found?} D -->|❌ No| E[📄 Not Found HTML] D
-                        -->|✅ Yes| F[📅 Get Warranty Data] F --> G[🧮 Calculate
-                        Today vs Expiry] G --> H{Still Valid?} H -->|✅ Yes|
-                        I[Calculate Days Remaining] H -->|❌ No| J[Calculate
-                        Days Expired] I --> K[✅ Valid Warranty HTML<br />Green
-                        Theme] J --> L[⚠️ Expired Warranty HTML<br />Red Theme]
-                        E --> M[🌐 Return HTML] K --> M L --> M style A
-                        fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-                        style B
-                        fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
-                        style C
-                        fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
-                        style D
-                        fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
-                        style F
-                        fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
-                        style G
-                        fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
-                        style H
-                        fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
-                        style I
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style J
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style K
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style L
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style E
-                        fill:#f59e0b,stroke:#333,stroke-width:2px,color:#fff
-                        style M
-                        fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
-                    </div>
-                </div>
-
-                <div class="success-box">
-                    <h4>✨ Smart Date Logic</h4>
-                    <div class="code-example">
-                        Example Calculation:<br />
-                        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
-                        Purchase Date: 2025-01-15<br />
-                        Warranty Period: 24 months<br />
-                        Expiry Date: 2027-01-15<br />
-                        <br />
-                        Today's Date: 2025-11-23<br />
-                        Status: ✅ VALID<br />
-                        Days Remaining: 418 days<br />
-                        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 7: Complete Data Flow -->
-            <div class="slide">
-                <h2>📊 End-to-End Data Flow</h2>
-
-                <div class="mermaid-container">
-                    <div class="mermaid">
-                        flowchart TB Start([🌐 Customer Opens Landing Page]) -->
-                        Choice{Select Action} Choice -->|Register Warranty|
-                        R1[📝 Fill Registration Form] Choice -->|Check Status|
-                        C1[🔍 Enter Serial Number] R1 --> R2[📤 POST to Webhook
-                        1] R2 --> R3{Input Valid?} R3 -->|❌ No| R4[Error HTML]
-                        R3 -->|✅ Yes| R5{Serial in DB?} R5 -->|Yes|
-                        R6[Duplicate Error HTML] R5 -->|No| R7[💾 Store in
-                        Database] R7 --> R8[✅ Success HTML<br />Green Theme] C1
-                        --> C2[📤 POST to Webhook 2] C2 --> C3{Serial Found?} C3
-                        -->|❌ No| C4[🔍 Not Found HTML<br />Orange Theme] C3
-                        -->|✅ Yes| C5{Warranty Valid?} C5 -->|✅ Yes| C6[✅
-                        Valid HTML<br />Green Theme] C5 -->|❌ No| C7[⚠️ Expired
-                        HTML<br />Red Theme] R4 --> Display[🌐 Browser Displays
-                        Page] R6 --> Display R8 --> Display C4 --> Display C6
-                        --> Display C7 --> Display Display --> End([👤 Customer
-                        Views Result]) style Start
-                        fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-                        style Choice
-                        fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
-                        style R7
-                        fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
-                        style R8
-                        fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
-                        style C6
-                        fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
-                        style C7
-                        fill:#ef4444,stroke:#333,stroke-width:3px,color:#fff
-                        style R4
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style R6
-                        fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
-                        style C4
-                        fill:#f59e0b,stroke:#333,stroke-width:2px,color:#fff
-                        style Display
-                        fill:#3b82f6,stroke:#333,stroke-width:3px,color:#fff
-                        style End
-                        fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 8: HTML Response Magic -->
-            <div class="slide">
-                <h2>🎨 The Power of HTML Responses</h2>
-
-                <div class="feature-grid">
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #10b981 0%,
-                                #059669 100%
-                            );
-                        "
-                    >
-                        <h4>✅ Registration Success</h4>
-                        <p>
-                            Green celebration theme with all customer details,
-                            warranty dates, and coverage information
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #ef4444 0%,
-                                #dc2626 100%
-                            );
-                        "
-                    >
-                        <h4>❌ Registration Error</h4>
-                        <p>
-                            Red alert theme with clear error message and
-                            actionable troubleshooting steps
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #10b981 0%,
-                                #059669 100%
-                            );
-                        "
-                    >
-                        <h4>✅ Valid Warranty</h4>
-                        <p>
-                            Green active theme showing days remaining, coverage
-                            details, and customer info
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #ef4444 0%,
-                                #dc2626 100%
-                            );
-                        "
-                    >
-                        <h4>⚠️ Expired Warranty</h4>
-                        <p>
-                            Red warning theme with days expired, support
-                            contacts, and next steps
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #f59e0b 0%,
-                                #d97706 100%
-                            );
-                        "
-                    >
-                        <h4>🔍 Not Found</h4>
-                        <p>
-                            Orange informational theme when serial not in
-                            database with support options
-                        </p>
-                    </div>
-                </div>
-
-                <div class="info-box" style="margin-top: 40px">
-                    <h4>🎯 Why This Approach is Revolutionary</h4>
-                    <ul style="margin-top: 15px">
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            🎨 <strong>Complete Design Control:</strong> Every
-                            color, font, spacing customizable
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            📱 <strong>Fully Responsive:</strong> Works on
-                            desktop, tablet, mobile
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ⚡ <strong>Zero Page Refresh:</strong> New window
-                            opens with instant results
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            💰 <strong>No Hosting Needed:</strong> HTML served
-                            directly from n8n
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            🔒 <strong>Secure Processing:</strong> All logic
-                            server-side, no data exposure
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            🚀 <strong>Instant Updates:</strong> Change HTML
-                            template, instant deployment
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Slide 9: Technical Deep Dive -->
-            <div class="slide">
-                <h2>⚙️ How HTML Responses Work</h2>
-
-                <div class="mermaid-container">
-                    <div class="mermaid">
-                        sequenceDiagram participant C as 👤 Customer participant
-                        F as 🌐 HTML Form participant W as 🎯 n8n Webhook
-                        participant D as 📊 Database participant H as 📄 HTML
-                        Template C->>F: Fills & submits form F->>W: POST request
-                        with JSON W->>D: Validate & store/query data D->>W:
-                        Return result W->>H: Load HTML template string H->>W:
-                        Replace {{placeholders}} W->>F: Return complete HTML
-                        page F->>C: Browser renders page Note over W,H: Template
-                        stored as<br />text in Function node Note over F,C:
-                        Opens in new<br />browser window Note over W,D: No
-                        external DB<br />n8n built-in storage
-                    </div>
-                </div>
-
-                <div class="code-example" style="margin-top: 30px">
-                    // Inside n8n Function Node:<br />
-                    <br />
-                    // 1. HTML template stored as string variable<br />
-                    const htmlTemplate = `&lt;!DOCTYPE
-                    html&gt;&lt;html&gt;...&lt;/html&gt;`;<br />
-                    <br />
-                    // 2. Replace placeholders with actual data<br />
-                    let finalHTML = htmlTemplate;<br />
-                    finalHTML = finalHTML.replace(/{{customerName}}/g,
-                    $json.customerName);<br />
-                    finalHTML = finalHTML.replace(/{{serialNumber}}/g,
-                    $json.serialNumber);<br />
-                    finalHTML = finalHTML.replace(/{{warrantyExpiryDate}}/g,
-                    $json.warrantyExpiryDate);<br />
-                    finalHTML = finalHTML.replace(/{{daysRemaining}}/g,
-                    $json.daysRemaining);<br />
-                    <br />
-                    // 3. Return HTML to webhook response<br />
-                    return { json: { html: finalHTML } };
-                </div>
-
-                <div class="success-box" style="margin-top: 30px">
-                    <h4>🔑 Key Technical Advantages</h4>
-                    <p>
-                        <strong>✅ No Backend Framework:</strong> No Express,
-                        Flask, Django - just n8n
-                    </p>
-                    <p>
-                        <strong>✅ No API Endpoints:</strong> Customer gets
-                        complete page in one response
-                    </p>
-                    <p>
-                        <strong>✅ No Frontend Build:</strong> HTML works
-                        immediately, no compilation
-                    </p>
-                    <p>
-                        <strong>✅ No CDN Needed:</strong> Everything
-                        self-contained in HTML
-                    </p>
-                    <p>
-                        <strong>✅ Fast Performance:</strong> Renders instantly
-                        in browser
-                    </p>
-                </div>
-            </div>
-
-            <!-- Slide 10: System Features -->
-            <div class="slide">
-                <h2>🚀 Complete System Features</h2>
-
-                <h3>📝 Registration Module Features</h3>
-                <ul>
-                    <li>
-                        <strong>Multi-Field Validation</strong> - Name, phone,
-                        email, serial number, purchase date
-                    </li>
-                    <li>
-                        <strong>Duplicate Detection</strong> - Prevents
-                        re-registration of same serial
-                    </li>
-                    <li>
-                        <strong>Auto Date Calculation</strong> - Warranty expiry
-                        computed (24 months default)
-                    </li>
-                    <li>
-                        <strong>Secure Storage</strong> - Encrypted n8n database
-                        storage
-                    </li>
-                    <li>
-                        <strong>Instant Confirmation</strong> - Beautiful
-                        branded success page
-                    </li>
-                    <li>
-                        <strong>Error Handling</strong> - Clear messages for all
-                        failure scenarios
-                    </li>
-                </ul>
-
-                <h3 style="margin-top: 40px">
-                    🔍 Status Check Module Features
-                </h3>
-                <ul>
-                    <li>
-                        <strong>Quick Serial Lookup</strong> - Fast indexed
-                        database search
-                    </li>
-                    <li>
-                        <strong>Real-Time Validation</strong> - Checks current
-                        date against expiry
-                    </li>
-                    <li>
-                        <strong>Days Calculation</strong> - Shows remaining or
-                        expired days
-                    </li>
-                    <li>
-                        <strong>Color-Coded Status</strong> - Green (valid), Red
-                        (expired), Orange (not found)
-                    </li>
-                    <li>
-                        <strong>Coverage Details</strong> - Displays what's
-                        included in warranty
-                    </li>
-                    <li>
-                        <strong>Support Information</strong> - Contact details
-                        for assistance
-                    </li>
-                </ul>
-
-                <h3 style="margin-top: 40px">💾 Database & Infrastructure</h3>
-                <ul>
-                    <li>
-                        <strong>n8n Built-in Database</strong> - No external DB
-                        required (PostgreSQL under the hood)
-                    </li>
-                    <li>
-                        <strong>Automatic Indexing</strong> - Fast serial number
-                        lookups
-                    </li>
-                    <li>
-                        <strong>Cloud Backups</strong> - n8n handles data
-                        protection
-                    </li>
-                    <li>
-                        <strong>Unlimited Scale</strong> - Handles thousands of
-                        registrations
-                    </li>
-                    <li>
-                        <strong>Query Performance</strong> - Sub-100ms response
-                        times
-                    </li>
+            <div class="success-box">
+                <h4>🎉 What We're Building</h4>
+                <p>A complete car battery warranty system that handles:</p>
+                <ul style="margin-top: 15px;">
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Customer warranty registration with validation</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Real-time warranty status verification</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Automatic database storage and retrieval</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Dynamic, branded HTML responses</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Automated expiry date calculations</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Professional, mobile-responsive UI</li>
                 </ul>
             </div>
+        </div>
 
-            <!-- Slide 11: Real-World Applications -->
-            <div class="slide">
-                <h2>💡 Beyond Battery Warranties</h2>
-                <p>
-                    The same webhook + HTML pattern works for countless business
-                    scenarios:
-                </p>
-
-                <div class="feature-grid">
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #3b82f6 0%,
-                                #2563eb 100%
-                            );
-                        "
-                    >
-                        <h4>🏭 Manufacturing</h4>
-                        <p>
-                            Product warranties, RMA processing, recall
-                            management, quality tracking
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #8b5cf6 0%,
-                                #7c3aed 100%
-                            );
-                        "
-                    >
-                        <h4>🎓 Education</h4>
-                        <p>
-                            Course enrollment, certificate generation, grade
-                            reports, attendance tracking
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #ec4899 0%,
-                                #db2777 100%
-                            );
-                        "
-                    >
-                        <h4>🎫 Events</h4>
-                        <p>
-                            Registration, ticket generation, check-in status,
-                            attendee management
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #f59e0b 0%,
-                                #d97706 100%
-                            );
-                        "
-                    >
-                        <h4>🏥 Healthcare</h4>
-                        <p>
-                            Appointment booking, test results, prescription
-                            tracking, patient portals
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #10b981 0%,
-                                #059669 100%
-                            );
-                        "
-                    >
-                        <h4>📦 E-Commerce</h4>
-                        <p>
-                            Order tracking, return processing, invoice
-                            generation, shipping updates
-                        </p>
-                    </div>
-
-                    <div
-                        class="feature-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #06b6d4 0%,
-                                #0891b2 100%
-                            );
-                        "
-                    >
-                        <h4>🏢 HR & Admin</h4>
-                        <p>
-                            Leave requests, expense claims, onboarding
-                            workflows, employee records
-                        </p>
-                    </div>
-                </div>
-
-                <div class="success-box" style="margin-top: 40px">
-                    <h4>🎯 The Universal Pattern</h4>
-                    <p>This approach works for any system that needs:</p>
-                    <ul style="margin-top: 15px">
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            📋 <strong>Data Collection</strong> - Forms,
-                            registrations, applications
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            🔍 <strong>Status Lookup</strong> - Order tracking,
-                            application status, records
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            📊 <strong>Report Generation</strong> - Invoices,
-                            certificates, statements
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ <strong>Approvals</strong> - Leave requests,
-                            purchase orders, workflows
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            📝 <strong>Submissions</strong> - Contact forms,
-                            surveys, feedback
-                        </li>
-                    </ul>
+        <!-- Slide 4: System Architecture -->
+        <div class="slide">
+            <h2>🏗️ System Architecture Overview</h2>
+            
+            <div class="mermaid-container">
+                <div class="mermaid">
+graph LR
+    A[👤 Customer] -->|Opens| B[🌐 Landing Page]
+    B -->|Register| C{🔗 Webhook 1}
+    B -->|Check Status| D{🔗 Webhook 2}
+    
+    C -->|Process| E[(📊 n8n Database)]
+    D -->|Query| E
+    
+    C -->|Success| F[✅ Success HTML]
+    C -->|Error| G[❌ Error HTML]
+    D -->|Valid| H[✅ Valid HTML]
+    D -->|Expired| I[⚠️ Expired HTML]
+    D -->|Not Found| J[🔍 Not Found HTML]
+    
+    F -->|Display| A
+    G -->|Display| A
+    H -->|Display| A
+    I -->|Display| A
+    J -->|Display| A
+    
+    style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+    style B fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
+    style D fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
+    style E fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style G fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style J fill:#f59e0b,stroke:#333,stroke-width:2px,color:#fff
                 </div>
             </div>
 
-            <!-- Slide 12: Cost Comparison -->
-            <div class="slide">
-                <h2>💰 Cost Comparison: Traditional vs n8n</h2>
-
-                <div
-                    style="
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 30px;
-                        margin-top: 40px;
-                    "
-                >
-                    <div
-                        style="
-                            background: #fee2e2;
-                            padding: 30px;
-                            border-radius: 15px;
-                            border: 3px solid #ef4444;
-                        "
-                    >
-                        <h3
-                            style="
-                                color: #991b1b;
-                                text-align: center;
-                                margin-bottom: 30px;
-                            "
-                        >
-                            ❌ Traditional Stack
-                        </h3>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #7f1d1d; font-weight: 600">
-                                Development (3-6 months)
-                            </p>
-                            <p
-                                style="
-                                    color: #991b1b;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $15,000-$50,000
-                            </p>
-                        </div>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #7f1d1d; font-weight: 600">
-                                Cloud Hosting (Annual)
-                            </p>
-                            <p
-                                style="
-                                    color: #991b1b;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $1,200-$6,000
-                            </p>
-                        </div>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #7f1d1d; font-weight: 600">
-                                Database Services
-                            </p>
-                            <p
-                                style="
-                                    color: #991b1b;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $600-$2,400
-                            </p>
-                        </div>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #7f1d1d; font-weight: 600">
-                                Maintenance (Annual)
-                            </p>
-                            <p
-                                style="
-                                    color: #991b1b;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $12,000-$30,000
-                            </p>
-                        </div>
-
-                        <div
-                            style="
-                                border-top: 3px solid #ef4444;
-                                padding-top: 20px;
-                                margin-top: 30px;
-                            "
-                        >
-                            <p
-                                style="
-                                    color: #7f1d1d;
-                                    font-weight: 600;
-                                    font-size: 1.1em;
-                                "
-                            >
-                                FIRST YEAR TOTAL
-                            </p>
-                            <p
-                                style="
-                                    color: #991b1b;
-                                    font-size: 2.2em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $28,800-$88,400
-                            </p>
-                        </div>
-                    </div>
-
-                    <div
-                        style="
-                            background: #d1fae5;
-                            padding: 30px;
-                            border-radius: 15px;
-                            border: 3px solid #10b981;
-                        "
-                    >
-                        <h3
-                            style="
-                                color: #065f46;
-                                text-align: center;
-                                margin-bottom: 30px;
-                            "
-                        >
-                            ✅ n8n Solution
-                        </h3>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #064e3b; font-weight: 600">
-                                n8n Pro (Annual)
-                            </p>
-                            <p
-                                style="
-                                    color: #065f46;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $240
-                            </p>
-                        </div>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #064e3b; font-weight: 600">
-                                Implementation Time
-                            </p>
-                            <p
-                                style="
-                                    color: #065f46;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $500-$2,000
-                            </p>
-                        </div>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #064e3b; font-weight: 600">
-                                Form Hosting
-                            </p>
-                            <p
-                                style="
-                                    color: #065f46;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $0-$100
-                            </p>
-                        </div>
-
-                        <div style="margin: 15px 0">
-                            <p style="color: #064e3b; font-weight: 600">
-                                Annual Maintenance
-                            </p>
-                            <p
-                                style="
-                                    color: #065f46;
-                                    font-size: 1.3em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $0-$500
-                            </p>
-                        </div>
-
-                        <div
-                            style="
-                                border-top: 3px solid #10b981;
-                                padding-top: 20px;
-                                margin-top: 30px;
-                            "
-                        >
-                            <p
-                                style="
-                                    color: #064e3b;
-                                    font-weight: 600;
-                                    font-size: 1.1em;
-                                "
-                            >
-                                FIRST YEAR TOTAL
-                            </p>
-                            <p
-                                style="
-                                    color: #065f46;
-                                    font-size: 2.2em;
-                                    font-weight: 700;
-                                "
-                            >
-                                $740-$2,840
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    style="
-                        background: linear-gradient(
-                            135deg,
-                            #ffd93d 0%,
-                            #ff6b9d 100%
-                        );
-                        padding: 40px;
-                        border-radius: 15px;
-                        margin-top: 40px;
-                        text-align: center;
-                        color: white;
-                    "
-                >
-                    <h3 style="font-size: 2.5em; margin-bottom: 15px">
-                        💰 Total Savings:
-                    </h3>
-                    <p
-                        style="
-                            font-size: 3.5em;
-                            font-weight: 700;
-                            margin-bottom: 15px;
-                        "
-                    >
-                        $26,000 - $85,560
-                    </p>
-                    <p style="font-size: 1.5em">in the first year alone!</p>
-                    <p style="font-size: 1.2em; margin-top: 20px; opacity: 0.9">
-                        Plus ongoing annual savings of $13,000-$38,000
-                    </p>
-                </div>
-            </div>
-
-            <!-- Slide 13: Implementation Timeline -->
-            <div class="slide">
-                <h2>⏱️ From Idea to Production</h2>
-
-                <div
-                    style="
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 20px;
-                        margin-top: 30px;
-                        margin-bottom: 40px;
-                    "
-                >
-                    <div
-                        style="
-                            background: #fee2e2;
-                            padding: 25px;
-                            border-radius: 12px;
-                            border-left: 5px solid #ef4444;
-                        "
-                    >
-                        <h4
-                            style="
-                                color: #991b1b;
-                                margin-bottom: 15px;
-                                font-size: 1.4em;
-                            "
-                        >
-                            ❌ Traditional Development
-                        </h4>
-                        <p
-                            style="
-                                color: #7f1d1d;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Planning & Design: 2 weeks
-                        </p>
-                        <p
-                            style="
-                                color: #7f1d1d;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Backend Development: 4 weeks
-                        </p>
-                        <p
-                            style="
-                                color: #7f1d1d;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Frontend Development: 4 weeks
-                        </p>
-                        <p
-                            style="
-                                color: #7f1d1d;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Database Setup: 1 week
-                        </p>
-                        <p
-                            style="
-                                color: #7f1d1d;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Testing & QA: 2 weeks
-                        </p>
-                        <p
-                            style="
-                                color: #7f1d1d;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Deployment: 1 week
-                        </p>
-                        <p
-                            style="
-                                color: #991b1b;
-                                font-weight: 700;
-                                font-size: 1.3em;
-                                margin-top: 20px;
-                            "
-                        >
-                            Total: 14 weeks (3.5 months)
-                        </p>
-                    </div>
-
-                    <div
-                        style="
-                            background: #d1fae5;
-                            padding: 25px;
-                            border-radius: 12px;
-                            border-left: 5px solid #10b981;
-                        "
-                    >
-                        <h4
-                            style="
-                                color: #065f46;
-                                margin-bottom: 15px;
-                                font-size: 1.4em;
-                            "
-                        >
-                            ✅ n8n Development
-                        </h4>
-                        <p
-                            style="
-                                color: #064e3b;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Design HTML Templates: 4 hours
-                        </p>
-                        <p
-                            style="
-                                color: #064e3b;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Create n8n Workflows: 5 hours
-                        </p>
-                        <p
-                            style="
-                                color: #064e3b;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Database Setup: 1 hour
-                        </p>
-                        <p
-                            style="
-                                color: #064e3b;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Integration & Testing: 2 hours
-                        </p>
-                        <p
-                            style="
-                                color: #064e3b;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Deploy Landing Page: 30 min
-                        </p>
-                        <p
-                            style="
-                                color: #064e3b;
-                                font-size: 1.1em;
-                                margin: 8px 0;
-                            "
-                        >
-                            • Go Live: Instant
-                        </p>
-                        <p
-                            style="
-                                color: #065f46;
-                                font-weight: 700;
-                                font-size: 1.3em;
-                                margin-top: 20px;
-                            "
-                        >
-                            Total: 12.5 hours (1-2 days)
-                        </p>
-                    </div>
-                </div>
-
-                <div class="success-box">
-                    <h4>⚡ Speed to Market Advantage</h4>
-                    <p style="font-size: 1.2em">
-                        <strong>98% faster time to market</strong> - Deploy in
-                        days instead of months
-                    </p>
-                    <p style="margin-top: 15px">This speed advantage means:</p>
-                    <ul style="margin-top: 10px">
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 5px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Test ideas quickly before full investment
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 5px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Respond to market needs immediately
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 5px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Launch MVPs and iterate based on feedback
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 5px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Beat competitors to market
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Slide 14: Technical Benefits -->
-            <div class="slide">
-                <h2>💪 Technical & Business Benefits</h2>
-
-                <div class="stat-grid" style="margin-bottom: 40px">
-                    <div
-                        class="stat-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #10b981 0%,
-                                #059669 100%
-                            );
-                        "
-                    >
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">Backend Servers to Manage</div>
-                    </div>
-                    <div
-                        class="stat-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #3b82f6 0%,
-                                #2563eb 100%
-                            );
-                        "
-                    >
-                        <div class="stat-number">1</div>
-                        <div class="stat-label">Platform (n8n Only)</div>
-                    </div>
-                    <div
-                        class="stat-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #f59e0b 0%,
-                                #d97706 100%
-                            );
-                        "
-                    >
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Uptime SLA</div>
-                    </div>
-                    <div
-                        class="stat-card"
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #8b5cf6 0%,
-                                #7c3aed 100%
-                            );
-                        "
-                    >
-                        <div class="stat-number">&lt;100ms</div>
-                        <div class="stat-label">Response Time</div>
-                    </div>
-                </div>
-
-                <h3>🔒 Security Advantages</h3>
-                <ul>
-                    <li>
-                        <strong>Server-Side Processing</strong> - All business
-                        logic in n8n, not exposed to client
-                    </li>
-                    <li>
-                        <strong>Encrypted Storage</strong> - n8n database
-                        encrypted at rest and in transit
-                    </li>
-                    <li>
-                        <strong>Input Validation</strong> - Every field
-                        validated before processing
-                    </li>
-                    <li>
-                        <strong>No Code Exposure</strong> - HTML templates don't
-                        reveal database schema
-                    </li>
-                    <li>
-                        <strong>Role-Based Access</strong> - n8n workspace
-                        permissions control who can edit
-                    </li>
-                </ul>
-
-                <h3 style="margin-top: 30px">⚡ Performance Benefits</h3>
-                <ul>
-                    <li>
-                        <strong>Sub-100ms Response</strong> - Webhook processing
-                        is lightning fast
-                    </li>
-                    <li>
-                        <strong>Single Request</strong> - Complete HTML returned
-                        in one call, no multiple API hits
-                    </li>
-                    <li>
-                        <strong>Indexed Queries</strong> - Database lookups
-                        optimized with indexes
-                    </li>
-                    <li>
-                        <strong>No Frontend Build</strong> - HTML renders
-                        immediately, no compilation
-                    </li>
-                    <li>
-                        <strong>CDN-Ready</strong> - Landing page can be cached
-                        globally
-                    </li>
-                </ul>
-
-                <h3 style="margin-top: 30px">🎨 Design & UX Benefits</h3>
-                <ul>
-                    <li>
-                        <strong>Pixel-Perfect Control</strong> - Every aspect of
-                        UI is customizable
-                    </li>
-                    <li>
-                        <strong>Brand Consistency</strong> - Use exact company
-                        colors, fonts, logos
-                    </li>
-                    <li>
-                        <strong>Mobile-First</strong> - Responsive design works
-                        on all devices
-                    </li>
-                    <li>
-                        <strong>Instant Updates</strong> - Change HTML in n8n,
-                        deploy in seconds
-                    </li>
-                    <li>
-                        <strong>A/B Testing</strong> - Easy to test different
-                        designs and messages
-                    </li>
+            <div class="info-box">
+                <h4>🔑 Revolutionary Concept: HTML Webhook Responses</h4>
+                <p>Traditional APIs return JSON data that requires a frontend to render. <strong>n8n webhooks return complete, ready-to-display HTML pages</strong>.</p>
+                <ul style="margin-top: 15px;">
+                    <li style="background: transparent; padding: 8px 0; border: none;">📄 No separate frontend application needed</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">🎨 Complete control over design and branding</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">⚡ Instant rendering directly in browser</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">💾 Zero hosting costs for response pages</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">🔒 Secure server-side processing</li>
                 </ul>
             </div>
+        </div>
 
-            <!-- Slide 15: Key Takeaways -->
-            <div class="slide">
-                <h2>🎓 Key Takeaways & Lessons</h2>
-
-                <div
-                    style="
-                        font-size: 1.3em;
-                        line-height: 2;
-                        margin-bottom: 40px;
-                    "
-                >
-                    <p>
-                        ✅
-                        <strong>Webhooks return complete HTML pages</strong> -
-                        not limited to JSON
-                    </p>
-                    <p>
-                        ✅ <strong>Zero backend infrastructure needed</strong> -
-                        n8n does everything
-                    </p>
-                    <p>
-                        ✅ <strong>Full creative control</strong> - design
-                        matches your brand perfectly
-                    </p>
-                    <p>
-                        ✅ <strong>Built-in database</strong> - no external DB
-                        services required
-                    </p>
-                    <p>
-                        ✅ <strong>Enterprise-grade results</strong> -
-                        professional quality systems
-                    </p>
-                    <p>
-                        ✅ <strong>Rapid development</strong> - hours instead of
-                        months
-                    </p>
-                    <p>
-                        ✅ <strong>Massive cost savings</strong> - $20K-$80K+
-                        saved annually
-                    </p>
-                    <p>
-                        ✅ <strong>Infinite scalability</strong> - handles any
-                        traffic volume
-                    </p>
-                </div>
-
-                <div
-                    style="
-                        display: grid;
-                        grid-template-columns: repeat(3, 1fr);
-                        gap: 25px;
-                        margin-top: 50px;
-                    "
-                >
-                    <div
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #10b981 0%,
-                                #059669 100%
-                            );
-                            padding: 35px;
-                            border-radius: 15px;
-                            text-align: center;
-                            color: white;
-                        "
-                    >
-                        <div style="font-size: 3.5em; margin-bottom: 15px">
-                            ⚡
-                        </div>
-                        <h4 style="margin-bottom: 12px; font-size: 1.3em">
-                            Lightning Fast
-                        </h4>
-                        <p style="color: #d1fae5; font-size: 1em">
-                            Build in hours, deploy instantly
-                        </p>
-                    </div>
-
-                    <div
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #3b82f6 0%,
-                                #2563eb 100%
-                            );
-                            padding: 35px;
-                            border-radius: 15px;
-                            text-align: center;
-                            color: white;
-                        "
-                    >
-                        <div style="font-size: 3.5em; margin-bottom: 15px">
-                            💰
-                        </div>
-                        <h4 style="margin-bottom: 12px; font-size: 1.3em">
-                            Cost Effective
-                        </h4>
-                        <p style="color: #dbeafe; font-size: 1em">
-                            Save tens of thousands yearly
-                        </p>
-                    </div>
-
-                    <div
-                        style="
-                            background: linear-gradient(
-                                135deg,
-                                #8b5cf6 0%,
-                                #7c3aed 100%
-                            );
-                            padding: 35px;
-                            border-radius: 15px;
-                            text-align: center;
-                            color: white;
-                        "
-                    >
-                        <div style="font-size: 3.5em; margin-bottom: 15px">
-                            🎨
-                        </div>
-                        <h4 style="margin-bottom: 12px; font-size: 1.3em">
-                            Fully Flexible
-                        </h4>
-                        <p style="color: #ede9fe; font-size: 1em">
-                            Customize everything completely
-                        </p>
-                    </div>
-                </div>
-
-                <div class="info-box" style="margin-top: 50px">
-                    <h4>🌟 The Real Magic</h4>
-                    <p style="font-size: 1.2em">
-                        You're not just building a warranty system - you're
-                        learning a pattern that works for hundreds of business
-                        use cases. This same approach can power registration
-                        systems, tracking portals, report generators, approval
-                        workflows, and countless other applications.
-                    </p>
+        <!-- Slide 5: Registration Workflow -->
+        <div class="slide">
+            <h2>📝 Workflow 1: Warranty Registration</h2>
+            
+            <div class="mermaid-container">
+                <div class="mermaid">
+graph TD
+    A[🌐 Customer Submits Form] -->|POST with Data| B[🎯 Webhook Trigger]
+    B --> C{📋 Validate Input}
+    
+    C -->|❌ Missing Fields| D[Return Error HTML]
+    C -->|✅ Valid| E[🔍 Check Serial in DB]
+    
+    E --> F{Already Exists?}
+    F -->|Yes| G[❌ Duplicate Error]
+    F -->|No| H[💾 Insert Record]
+    
+    H --> I[🧮 Calculate Expiry]
+    I --> J[📄 Build Success HTML]
+    J --> K[✅ Return to Browser]
+    
+    G --> L[📄 Build Error HTML]
+    D --> M[📄 Build Validation Error]
+    
+    L --> K
+    M --> K
+    
+    style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+    style B fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
+    style C fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
+    style E fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style J fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style K fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
+    style D fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style G fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style L fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style M fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
                 </div>
             </div>
 
-            <!-- Slide 16: Call to Action -->
-            <div class="slide">
-                <h2>🚀 Ready to Build Your System?</h2>
-
-                <div class="success-box" style="margin-bottom: 40px">
-                    <h4>📚 What You Need to Get Started</h4>
-                    <ul style="margin-top: 15px">
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ n8n account (Cloud or Self-hosted)
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Basic HTML/CSS knowledge (or use ready templates)
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Your specific business use case
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ 8-12 hours for full implementation
-                        </li>
-                        <li
-                            style="
-                                background: transparent;
-                                padding: 8px 0;
-                                border: none;
-                            "
-                        >
-                            ✅ Enthusiasm to learn and experiment!
-                        </li>
-                    </ul>
+            <div class="info-box">
+                <h4>📦 Data Stored in n8n Database</h4>
+                <div class="code-example">
+{<br>
+&nbsp;&nbsp;"serialNumber": "BAT2025001",<br>
+&nbsp;&nbsp;"customerName": "Rajesh Kumar",<br>
+&nbsp;&nbsp;"phoneNumber": "9876543210",<br>
+&nbsp;&nbsp;"email": "rajesh@email.com",<br>
+&nbsp;&nbsp;"purchaseDate": "2025-01-15",<br>
+&nbsp;&nbsp;"registrationDate": "2025-11-23",<br>
+&nbsp;&nbsp;"warrantyStartDate": "2025-01-15",<br>
+&nbsp;&nbsp;"warrantyExpiryDate": "2027-01-15"<br>
+}
                 </div>
+                <p style="margin-top: 15px;"><strong>Note:</strong> Expiry calculated automatically as Purchase Date + 24 months</p>
+            </div>
+        </div>
 
-                <h3>📋 Quick Start Checklist</h3>
-                <ul style="margin-bottom: 40px">
-                    <li>[ ] Set up n8n workspace and activate database</li>
-                    <li>[ ] Design your HTML forms and response pages</li>
-                    <li>[ ] Create two webhook endpoints</li>
-                    <li>
-                        [ ] Build registration workflow with validation logic
-                    </li>
-                    <li>
-                        [ ] Build status check workflow with date calculations
-                    </li>
-                    <li>[ ] Test all scenarios thoroughly</li>
-                    <li>[ ] Deploy landing page to GitHub Pages/Netlify</li>
-                    <li>[ ] Go live and celebrate! 🎉</li>
-                </ul>
+        <!-- Slide 6: Status Check Workflow -->
+        <div class="slide">
+            <h2>🔍 Workflow 2: Warranty Status Check</h2>
+            
+            <div class="mermaid-container">
+                <div class="mermaid">
+graph TD
+    A[🌐 Enter Serial Number] -->|POST Request| B[🎯 Webhook Trigger]
+    B --> C[🔍 Query Database]
+    
+    C --> D{Record Found?}
+    D -->|❌ No| E[📄 Not Found HTML]
+    D -->|✅ Yes| F[📅 Get Warranty Data]
+    
+    F --> G[🧮 Calculate Today vs Expiry]
+    G --> H{Still Valid?}
+    
+    H -->|✅ Yes| I[Calculate Days Remaining]
+    H -->|❌ No| J[Calculate Days Expired]
+    
+    I --> K[✅ Valid Warranty HTML<br/>Green Theme]
+    J --> L[⚠️ Expired Warranty HTML<br/>Red Theme]
+    
+    E --> M[🌐 Return HTML]
+    K --> M
+    L --> M
+    
+    style A fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+    style B fill:#f59e0b,stroke:#333,stroke-width:3px,color:#fff
+    style C fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
+    style D fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#3b82f6,stroke:#333,stroke-width:2px,color:#fff
+    style G fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style J fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style K fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style L fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style E fill:#f59e0b,stroke:#333,stroke-width:2px,color:#fff
+    style M fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
+                </div>
+            </div>
 
-                <div
-                    style="
-                        background: linear-gradient(
-                            135deg,
-                            #1e3c72 0%,
-                            #2a5298 100%
-                        );
-                        padding: 50px;
-                        border-radius: 20px;
-                        text-align: center;
-                        color: white;
-                    "
-                >
-                    <h3
-                        style="
-                            font-size: 3em;
-                            margin-bottom: 25px;
-                            color: white;
-                        "
-                    >
-                        Transform Your Business Today
-                    </h3>
-                    <p
-                        style="
-                            font-size: 1.5em;
-                            color: white;
-                            margin-bottom: 30px;
-                        "
-                    >
-                        Start building your webhook-powered automation system
-                    </p>
-
-                    <div
-                        style="
-                            font-size: 1.2em;
-                            margin: 25px 0;
-                            color: lightgrey;
-                        "
-                    >
-                        🌐 Abhilash Emmanuel - AI Automation Expert
-                        <br /><br />Helping businesses automate workflows
-                    </div>
-
-                    <div
-                        style="
-                            display: flex;
-                            gap: 20px;
-                            justify-content: center;
-                            flex-wrap: wrap;
-                            margin-top: 40px;
-                        "
-                    >
-                        <span
-                            class="badge-blue"
-                            style="font-size: 1.2em; padding: 15px 35px"
-                            >No-Code Solutions</span
-                        >
-                        <span
-                            class="badge-green"
-                            style="font-size: 1.2em; padding: 15px 35px"
-                            >Rapid Development</span
-                        >
-                        <span
-                            class="badge-purple"
-                            style="font-size: 1.2em; padding: 15px 35px"
-                            >Enterprise Quality</span
-                        >
-                    </div>
+            <div class="success-box">
+                <h4>✨ Smart Date Logic</h4>
+                <div class="code-example">
+Example Calculation:<br>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>
+Purchase Date:  2025-01-15<br>
+Warranty Period: 24 months<br>
+Expiry Date:    2027-01-15<br>
+<br>
+Today's Date:   2025-11-23<br>
+Status:         ✅ VALID<br>
+Days Remaining: 418 days<br>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                 </div>
             </div>
         </div>
 
-        <script>
-            mermaid.initialize({
-                startOnLoad: true,
-                theme: "default",
-                themeVariables: {
-                    primaryColor: "#667eea",
-                    primaryTextColor: "#fff",
-                    primaryBorderColor: "#333",
-                    lineColor: "#666",
-                    secondaryColor: "#10b981",
-                    tertiaryColor: "#f59e0b",
-                },
-                flowchart: {
-                    curve: "basis",
-                    padding: 20,
-                },
-                sequence: {
-                    diagramMarginX: 50,
-                    diagramMarginY: 10,
-                    actorMargin: 50,
-                    width: 150,
-                    height: 65,
-                    boxMargin: 10,
-                    boxTextMargin: 5,
-                    noteMargin: 10,
-                    messageMargin: 35,
-                },
-            });
-        </script>
-    </body>
+        <!-- Slide 7: Complete Data Flow -->
+        <div class="slide">
+            <h2>📊 End-to-End Data Flow</h2>
+            
+            <div class="mermaid-container">
+                <div class="mermaid">
+flowchart TB
+    Start([🌐 Customer Opens Landing Page]) --> Choice{Select Action}
+    
+    Choice -->|Register Warranty| R1[📝 Fill Registration Form]
+    Choice -->|Check Status| C1[🔍 Enter Serial Number]
+    
+    R1 --> R2[📤 POST to Webhook 1]
+    R2 --> R3{Input Valid?}
+    
+    R3 -->|❌ No| R4[Error HTML]
+    R3 -->|✅ Yes| R5{Serial in DB?}
+    
+    R5 -->|Yes| R6[Duplicate Error HTML]
+    R5 -->|No| R7[💾 Store in Database]
+    
+    R7 --> R8[✅ Success HTML<br/>Green Theme]
+    
+    C1 --> C2[📤 POST to Webhook 2]
+    C2 --> C3{Serial Found?}
+    
+    C3 -->|❌ No| C4[🔍 Not Found HTML<br/>Orange Theme]
+    C3 -->|✅ Yes| C5{Warranty Valid?}
+    
+    C5 -->|✅ Yes| C6[✅ Valid HTML<br/>Green Theme]
+    C5 -->|❌ No| C7[⚠️ Expired HTML<br/>Red Theme]
+    
+    R4 --> Display[🌐 Browser Displays Page]
+    R6 --> Display
+    R8 --> Display
+    C4 --> Display
+    C6 --> Display
+    C7 --> Display
+    
+    Display --> End([👤 Customer Views Result])
+    
+    style Start fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+    style Choice fill:#8b5cf6,stroke:#333,stroke-width:2px,color:#fff
+    style R7 fill:#10b981,stroke:#333,stroke-width:2px,color:#fff
+    style R8 fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
+    style C6 fill:#10b981,stroke:#333,stroke-width:3px,color:#fff
+    style C7 fill:#ef4444,stroke:#333,stroke-width:3px,color:#fff
+    style R4 fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style R6 fill:#ef4444,stroke:#333,stroke-width:2px,color:#fff
+    style C4 fill:#f59e0b,stroke:#333,stroke-width:2px,color:#fff
+    style Display fill:#3b82f6,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#667eea,stroke:#333,stroke-width:3px,color:#fff
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: HTML Response Magic -->
+        <div class="slide">
+            <h2>🎨 The Power of HTML Responses</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <h4>✅ Registration Success</h4>
+                    <p>Green celebration theme with all customer details, warranty dates, and coverage information</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                    <h4>❌ Registration Error</h4>
+                    <p>Red alert theme with clear error message and actionable troubleshooting steps</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <h4>✅ Valid Warranty</h4>
+                    <p>Green active theme showing days remaining, coverage details, and customer info</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                    <h4>⚠️ Expired Warranty</h4>
+                    <p>Red warning theme with days expired, support contacts, and next steps</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <h4>🔍 Not Found</h4>
+                    <p>Orange informational theme when serial not in database with support options</p>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 40px;">
+                <h4>🎯 Why This Approach is Revolutionary</h4>
+                <ul style="margin-top: 15px;">
+                    <li style="background: transparent; padding: 8px 0; border: none;">🎨 <strong>Complete Design Control:</strong> Every color, font, spacing customizable</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">📱 <strong>Fully Responsive:</strong> Works on desktop, tablet, mobile</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">⚡ <strong>Zero Page Refresh:</strong> New window opens with instant results</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">💰 <strong>No Hosting Needed:</strong> HTML served directly from n8n</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">🔒 <strong>Secure Processing:</strong> All logic server-side, no data exposure</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">🚀 <strong>Instant Updates:</strong> Change HTML template, instant deployment</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 9: Technical Deep Dive -->
+        <div class="slide">
+            <h2>⚙️ How HTML Responses Work</h2>
+            
+            <div class="mermaid-container">
+                <div class="mermaid">
+sequenceDiagram
+    participant C as 👤 Customer
+    participant F as 🌐 HTML Form
+    participant W as 🎯 n8n Webhook
+    participant D as 📊 Database
+    participant H as 📄 HTML Template
+    
+    C->>F: Fills & submits form
+    F->>W: POST request with JSON
+    W->>D: Validate & store/query data
+    D->>W: Return result
+    W->>H: Load HTML template string
+    H->>W: Replace {{placeholders}}
+    W->>F: Return complete HTML page
+    F->>C: Browser renders page
+    
+    Note over W,H: Template stored as<br/>text in Function node
+    Note over F,C: Opens in new<br/>browser window
+    Note over W,D: No external DB<br/>n8n built-in storage
+                </div>
+            </div>
+
+            <div class="code-example" style="margin-top: 30px;">
+// Inside n8n Function Node:<br>
+<br>
+// 1. HTML template stored as string variable<br>
+const htmlTemplate = `&lt;!DOCTYPE html&gt;&lt;html&gt;...&lt;/html&gt;`;<br>
+<br>
+// 2. Replace placeholders with actual data<br>
+let finalHTML = htmlTemplate;<br>
+finalHTML = finalHTML.replace(/{{customerName}}/g, $json.customerName);<br>
+finalHTML = finalHTML.replace(/{{serialNumber}}/g, $json.serialNumber);<br>
+finalHTML = finalHTML.replace(/{{warrantyExpiryDate}}/g, $json.warrantyExpiryDate);<br>
+finalHTML = finalHTML.replace(/{{daysRemaining}}/g, $json.daysRemaining);<br>
+<br>
+// 3. Return HTML to webhook response<br>
+return { json: { html: finalHTML } };
+            </div>
+
+            <div class="success-box" style="margin-top: 30px;">
+                <h4>🔑 Key Technical Advantages</h4>
+                <p><strong>✅ No Backend Framework:</strong> No Express, Flask, Django - just n8n</p>
+                <p><strong>✅ No API Endpoints:</strong> Customer gets complete page in one response</p>
+                <p><strong>✅ No Frontend Build:</strong> HTML works immediately, no compilation</p>
+                <p><strong>✅ No CDN Needed:</strong> Everything self-contained in HTML</p>
+                <p><strong>✅ Fast Performance:</strong> Renders instantly in browser</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: System Features -->
+        <div class="slide">
+            <h2>🚀 Complete System Features</h2>
+
+            <h3>📝 Registration Module Features</h3>
+            <ul>
+                <li><strong>Multi-Field Validation</strong> - Name, phone, email, serial number, purchase date</li>
+                <li><strong>Duplicate Detection</strong> - Prevents re-registration of same serial</li>
+                <li><strong>Auto Date Calculation</strong> - Warranty expiry computed (24 months default)</li>
+                <li><strong>Secure Storage</strong> - Encrypted n8n database storage</li>
+                <li><strong>Instant Confirmation</strong> - Beautiful branded success page</li>
+                <li><strong>Error Handling</strong> - Clear messages for all failure scenarios</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">🔍 Status Check Module Features</h3>
+            <ul>
+                <li><strong>Quick Serial Lookup</strong> - Fast indexed database search</li>
+                <li><strong>Real-Time Validation</strong> - Checks current date against expiry</li>
+                <li><strong>Days Calculation</strong> - Shows remaining or expired days</li>
+                <li><strong>Color-Coded Status</strong> - Green (valid), Red (expired), Orange (not found)</li>
+                <li><strong>Coverage Details</strong> - Displays what's included in warranty</li>
+                <li><strong>Support Information</strong> - Contact details for assistance</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">💾 Database & Infrastructure</h3>
+            <ul>
+                <li><strong>n8n Built-in Database</strong> - No external DB required (PostgreSQL under the hood)</li>
+                <li><strong>Automatic Indexing</strong> - Fast serial number lookups</li>
+                <li><strong>Cloud Backups</strong> - n8n handles data protection</li>
+                <li><strong>Unlimited Scale</strong> - Handles thousands of registrations</li>
+                <li><strong>Query Performance</strong> - Sub-100ms response times</li>
+            </ul>
+        </div>
+
+        <!-- Slide 11: Real-World Applications -->
+        <div class="slide">
+            <h2>💡 Beyond Battery Warranties</h2>
+            <p>The same webhook + HTML pattern works for countless business scenarios:</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                    <h4>🏭 Manufacturing</h4>
+                    <p>Product warranties, RMA processing, recall management, quality tracking</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <h4>🎓 Education</h4>
+                    <p>Course enrollment, certificate generation, grade reports, attendance tracking</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">
+                    <h4>🎫 Events</h4>
+                    <p>Registration, ticket generation, check-in status, attendee management</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <h4>🏥 Healthcare</h4>
+                    <p>Appointment booking, test results, prescription tracking, patient portals</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <h4>📦 E-Commerce</h4>
+                    <p>Order tracking, return processing, invoice generation, shipping updates</p>
+                </div>
+                
+                <div class="feature-card" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);">
+                    <h4>🏢 HR & Admin</h4>
+                    <p>Leave requests, expense claims, onboarding workflows, employee records</p>
+                </div>
+            </div>
+
+            <div class="success-box" style="margin-top: 40px;">
+                <h4>🎯 The Universal Pattern</h4>
+                <p>This approach works for any system that needs:</p>
+                <ul style="margin-top: 15px;">
+                    <li style="background: transparent; padding: 8px 0; border: none;">📋 <strong>Data Collection</strong> - Forms, registrations, applications</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">🔍 <strong>Status Lookup</strong> - Order tracking, application status, records</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">📊 <strong>Report Generation</strong> - Invoices, certificates, statements</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ <strong>Approvals</strong> - Leave requests, purchase orders, workflows</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">📝 <strong>Submissions</strong> - Contact forms, surveys, feedback</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Cost Comparison -->
+        <div class="slide">
+            <h2>💰 Cost Comparison: Traditional vs n8n</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
+                <div style="background: #fee2e2; padding: 30px; border-radius: 15px; border: 3px solid #ef4444;">
+                    <h3 style="color: #991b1b; text-align: center; margin-bottom: 30px;">❌ Traditional Stack</h3>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #7f1d1d; font-weight: 600;">Development (3-6 months)</p>
+                        <p style="color: #991b1b; font-size: 1.3em; font-weight: 700;">$15,000-$50,000</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #7f1d1d; font-weight: 600;">Cloud Hosting (Annual)</p>
+                        <p style="color: #991b1b; font-size: 1.3em; font-weight: 700;">$1,200-$6,000</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #7f1d1d; font-weight: 600;">Database Services</p>
+                        <p style="color: #991b1b; font-size: 1.3em; font-weight: 700;">$600-$2,400</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #7f1d1d; font-weight: 600;">Maintenance (Annual)</p>
+                        <p style="color: #991b1b; font-size: 1.3em; font-weight: 700;">$12,000-$30,000</p>
+                    </div>
+                    
+                    <div style="border-top: 3px solid #ef4444; padding-top: 20px; margin-top: 30px;">
+                        <p style="color: #7f1d1d; font-weight: 600; font-size: 1.1em;">FIRST YEAR TOTAL</p>
+                        <p style="color: #991b1b; font-size: 2.2em; font-weight: 700;">$28,800-$88,400</p>
+                    </div>
+                </div>
+                
+                <div style="background: #d1fae5; padding: 30px; border-radius: 15px; border: 3px solid #10b981;">
+                    <h3 style="color: #065f46; text-align: center; margin-bottom: 30px;">✅ n8n Solution</h3>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #064e3b; font-weight: 600;">n8n Pro (Annual)</p>
+                        <p style="color: #065f46; font-size: 1.3em; font-weight: 700;">$240</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #064e3b; font-weight: 600;">Implementation Time</p>
+                        <p style="color: #065f46; font-size: 1.3em; font-weight: 700;">$500-$2,000</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #064e3b; font-weight: 600;">Form Hosting</p>
+                        <p style="color: #065f46; font-size: 1.3em; font-weight: 700;">$0-$100</p>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <p style="color: #064e3b; font-weight: 600;">Annual Maintenance</p>
+                        <p style="color: #065f46; font-size: 1.3em; font-weight: 700;">$0-$500</p>
+                    </div>
+                    
+                    <div style="border-top: 3px solid #10b981; padding-top: 20px; margin-top: 30px;">
+                        <p style="color: #064e3b; font-weight: 600; font-size: 1.1em;">FIRST YEAR TOTAL</p>
+                        <p style="color: #065f46; font-size: 2.2em; font-weight: 700;">$740-$2,840</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #ffd93d 0%, #ff6b9d 100%); padding: 40px; border-radius: 15px; margin-top: 40px; text-align: center; color: white;">
+                <h3 style="font-size: 2.5em; margin-bottom: 15px;">💰 Total Savings:</h3>
+                <p style="font-size: 3.5em; font-weight: 700; margin-bottom: 15px;">$26,000 - $85,560</p>
+                <p style="font-size: 1.5em;">in the first year alone!</p>
+                <p style="font-size: 1.2em; margin-top: 20px; opacity: 0.9;">Plus ongoing annual savings of $13,000-$38,000</p>
+            </div>
+        </div>
+
+        <!-- Slide 13: Implementation Timeline -->
+        <div class="slide">
+            <h2>⏱️ From Idea to Production</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; margin-bottom: 40px;">
+                <div style="background: #fee2e2; padding: 25px; border-radius: 12px; border-left: 5px solid #ef4444;">
+                    <h4 style="color: #991b1b; margin-bottom: 15px; font-size: 1.4em;">❌ Traditional Development</h4>
+                    <p style="color: #7f1d1d; font-size: 1.1em; margin: 8px 0;">• Planning & Design: 2 weeks</p>
+                    <p style="color: #7f1d1d; font-size: 1.1em; margin: 8px 0;">• Backend Development: 4 weeks</p>
+                    <p style="color: #7f1d1d; font-size: 1.1em; margin: 8px 0;">• Frontend Development: 4 weeks</p>
+                    <p style="color: #7f1d1d; font-size: 1.1em; margin: 8px 0;">• Database Setup: 1 week</p>
+                    <p style="color: #7f1d1d; font-size: 1.1em; margin: 8px 0;">• Testing & QA: 2 weeks</p>
+                    <p style="color: #7f1d1d; font-size: 1.1em; margin: 8px 0;">• Deployment: 1 week</p>
+                    <p style="color: #991b1b; font-weight: 700; font-size: 1.3em; margin-top: 20px;">Total: 14 weeks (3.5 months)</p>
+                </div>
+                
+                <div style="background: #d1fae5; padding: 25px; border-radius: 12px; border-left: 5px solid #10b981;">
+                    <h4 style="color: #065f46; margin-bottom: 15px; font-size: 1.4em;">✅ n8n Development</h4>
+                    <p style="color: #064e3b; font-size: 1.1em; margin: 8px 0;">• Design HTML Templates: 4 hours</p>
+                    <p style="color: #064e3b; font-size: 1.1em; margin: 8px 0;">• Create n8n Workflows: 5 hours</p>
+                    <p style="color: #064e3b; font-size: 1.1em; margin: 8px 0;">• Database Setup: 1 hour</p>
+                    <p style="color: #064e3b; font-size: 1.1em; margin: 8px 0;">• Integration & Testing: 2 hours</p>
+                    <p style="color: #064e3b; font-size: 1.1em; margin: 8px 0;">• Deploy Landing Page: 30 min</p>
+                    <p style="color: #064e3b; font-size: 1.1em; margin: 8px 0;">• Go Live: Instant</p>
+                    <p style="color: #065f46; font-weight: 700; font-size: 1.3em; margin-top: 20px;">Total: 12.5 hours (1-2 days)</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <h4>⚡ Speed to Market Advantage</h4>
+                <p style="font-size: 1.2em;"><strong>98% faster time to market</strong> - Deploy in days instead of months</p>
+                <p style="margin-top: 15px;">This speed advantage means:</p>
+                <ul style="margin-top: 10px;">
+                    <li style="background: transparent; padding: 5px 0; border: none;">✅ Test ideas quickly before full investment</li>
+                    <li style="background: transparent; padding: 5px 0; border: none;">✅ Respond to market needs immediately</li>
+                    <li style="background: transparent; padding: 5px 0; border: none;">✅ Launch MVPs and iterate based on feedback</li>
+                    <li style="background: transparent; padding: 5px 0; border: none;">✅ Beat competitors to market</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 14: Technical Benefits -->
+        <div class="slide">
+            <h2>💪 Technical & Business Benefits</h2>
+
+            <div class="stat-grid" style="margin-bottom: 40px;">
+                <div class="stat-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Backend Servers to Manage</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Platform (n8n Only)</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Uptime SLA</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <div class="stat-number">&lt;100ms</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+            </div>
+
+            <h3>🔒 Security Advantages</h3>
+            <ul>
+                <li><strong>Server-Side Processing</strong> - All business logic in n8n, not exposed to client</li>
+                <li><strong>Encrypted Storage</strong> - n8n database encrypted at rest and in transit</li>
+                <li><strong>Input Validation</strong> - Every field validated before processing</li>
+                <li><strong>No Code Exposure</strong> - HTML templates don't reveal database schema</li>
+                <li><strong>Role-Based Access</strong> - n8n workspace permissions control who can edit</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">⚡ Performance Benefits</h3>
+            <ul>
+                <li><strong>Sub-100ms Response</strong> - Webhook processing is lightning fast</li>
+                <li><strong>Single Request</strong> - Complete HTML returned in one call, no multiple API hits</li>
+                <li><strong>Indexed Queries</strong> - Database lookups optimized with indexes</li>
+                <li><strong>No Frontend Build</strong> - HTML renders immediately, no compilation</li>
+                <li><strong>CDN-Ready</strong> - Landing page can be cached globally</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">🎨 Design & UX Benefits</h3>
+            <ul>
+                <li><strong>Pixel-Perfect Control</strong> - Every aspect of UI is customizable</li>
+                <li><strong>Brand Consistency</strong> - Use exact company colors, fonts, logos</li>
+                <li><strong>Mobile-First</strong> - Responsive design works on all devices</li>
+                <li><strong>Instant Updates</strong> - Change HTML in n8n, deploy in seconds</li>
+                <li><strong>A/B Testing</strong> - Easy to test different designs and messages</li>
+            </ul>
+        </div>
+
+        <!-- Slide 15: Key Takeaways -->
+        <div class="slide">
+            <h2>🎓 Key Takeaways & Lessons</h2>
+            
+            <div style="font-size: 1.3em; line-height: 2; margin-bottom: 40px;">
+                <p>✅ <strong>Webhooks return complete HTML pages</strong> - not limited to JSON</p>
+                <p>✅ <strong>Zero backend infrastructure needed</strong> - n8n does everything</p>
+                <p>✅ <strong>Full creative control</strong> - design matches your brand perfectly</p>
+                <p>✅ <strong>Built-in database</strong> - no external DB services required</p>
+                <p>✅ <strong>Enterprise-grade results</strong> - professional quality systems</p>
+                <p>✅ <strong>Rapid development</strong> - hours instead of months</p>
+                <p>✅ <strong>Massive cost savings</strong> - $20K-$80K+ saved annually</p>
+                <p>✅ <strong>Infinite scalability</strong> - handles any traffic volume</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 50px;">
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 35px; border-radius: 15px; text-align: center; color: white;">
+                    <div style="font-size: 3.5em; margin-bottom: 15px;">⚡</div>
+                    <h4 style="margin-bottom: 12px; font-size: 1.3em;">Lightning Fast</h4>
+                    <p style="color: #d1fae5; font-size: 1em;">Build in hours, deploy instantly</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 35px; border-radius: 15px; text-align: center; color: white;">
+                    <div style="font-size: 3.5em; margin-bottom: 15px;">💰</div>
+                    <h4 style="margin-bottom: 12px; font-size: 1.3em;">Cost Effective</h4>
+                    <p style="color: #dbeafe; font-size: 1em;">Save tens of thousands yearly</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); padding: 35px; border-radius: 15px; text-align: center; color: white;">
+                    <div style="font-size: 3.5em; margin-bottom: 15px;">🎨</div>
+                    <h4 style="margin-bottom: 12px; font-size: 1.3em;">Fully Flexible</h4>
+                    <p style="color: #ede9fe; font-size: 1em;">Customize everything completely</p>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 50px;">
+                <h4>🌟 The Real Magic</h4>
+                <p style="font-size: 1.2em;">You're not just building a warranty system - you're learning a pattern that works for hundreds of business use cases. This same approach can power registration systems, tracking portals, report generators, approval workflows, and countless other applications.</p>
+            </div>
+        </div>
+
+        <!-- Slide 16: Call to Action -->
+        <div class="slide">
+            <h2>🚀 Ready to Build Your System?</h2>
+            
+            <div class="success-box" style="margin-bottom: 40px;">
+                <h4>📚 What You Need to Get Started</h4>
+                <ul style="margin-top: 15px;">
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ n8n account (Cloud or Self-hosted)</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Basic HTML/CSS knowledge (or use ready templates)</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Your specific business use case</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ 8-12 hours for full implementation</li>
+                    <li style="background: transparent; padding: 8px 0; border: none;">✅ Enthusiasm to learn and experiment!</li>
+                </ul>
+            </div>
+
+            <h3>📋 Quick Start Checklist</h3>
+            <ul style="margin-bottom: 40px;">
+                <li>[ ] Set up n8n workspace and activate database</li>
+                <li>[ ] Design your HTML forms and response pages</li>
+                <li>[ ] Create two webhook endpoints</li>
+                <li>[ ] Build registration workflow with validation logic</li>
+                <li>[ ] Build status check workflow with date calculations</li>
+                <li>[ ] Test all scenarios thoroughly</li>
+                <li>[ ] Deploy landing page to GitHub Pages/Netlify</li>
+                <li>[ ] Go live and celebrate! 🎉</li>
+            </ul>
+
+            <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 50px; border-radius: 20px; text-align: center; color: white;">
+                <h3 style="font-size: 3em; margin-bottom: 25px; color: white;">Transform Your Business Today</h3>
+                <p style="font-size: 1.5em; color: #e2e8f0; margin-bottom: 30px;">Start building your webhook-powered automation system</p>
+                
+                <div style="font-size: 1.2em; margin: 25px 0;">
+                    <p>Abhilash Emmanuel - AI Automation Expert</p>
+                    <p style="margin-top: 10px;">Helping businesses automate workflows</p>
+                    <p style="margin-top: 10px;">Contact me: bewithaby@gmail.com</p>
+                </div>
+                
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 40px;">
+                    <span class="badge-blue" style="font-size: 1.2em; padding: 15px 35px;">No-Code Solutions</span>
+                    <span class="badge-green" style="font-size: 1.2em; padding: 15px 35px;">Rapid Development</span>
+                    <span class="badge-purple" style="font-size: 1.2em; padding: 15px 35px;">Enterprise Quality</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#667eea',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#333',
+                lineColor: '#666',
+                secondaryColor: '#10b981',
+                tertiaryColor: '#f59e0b'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 20
+            },
+            sequence: {
+                diagramMarginX: 50,
+                diagramMarginY: 10,
+                actorMargin: 50,
+                width: 150,
+                height: 65,
+                boxMargin: 10,
+                boxTextMargin: 5,
+                noteMargin: 10,
+                messageMargin: 35
+            }
+        });
+    </script>
+</body>
 </html>
